@@ -27,7 +27,7 @@ public class Player {
     private Integer number;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", nullable = true)
+    @JoinColumn(name = "team_id")
     private Team team;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -43,7 +43,7 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "Id=" + Id +
+                "Id=" + id +
                 ", name='" + name + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", number=" + number +

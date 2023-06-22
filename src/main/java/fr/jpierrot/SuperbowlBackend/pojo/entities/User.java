@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
+import java.util.List;
 
 @SuperBuilder
 @Getter
@@ -44,6 +44,12 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 
+    @ManyToMany
+    @JoinTable(name = "users_bets",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "bet_id"))
+    private List<Bet> betslip;
+
     @Builder.Default
     @Column(name="is_enabled", nullable = false)
     private Boolean isEnabled = false;
@@ -61,4 +67,41 @@ public class User {
     @Builder.Default
     @Column(name = "modification_date")
     private ZonedDateTime modifiedDate = ZonedDateTime.now();
+
+    @Override
+    public String toString() {
+        String stringToPrint;
+        switch (this.role) {
+            case ROLE_USER -> {
+                if (this.isEnabled) {
+                    stringToPrint = "User{" +
+                            "id=" + id +
+                            ", email='" + email + '\'' +
+                            ", name='" + name + '\'' +
+                            ", firstname='" + firstname + '\'' +
+                            ", betslip=" + betslip +
+                            ", isPwdChecked=" + isPwdChecked +
+                            '}';
+                } else {
+                    stringToPrint = "User{" +
+                            "id=" + id +
+                            ", isEnabled=" + isEnabled +
+                            '}';
+                }
+            }
+            case ROLE_COMMENTATOR -> stringToPrint = "Commentator{" +
+                    "name='" + name + '\'' +
+                    ", firstname='" + firstname + '\'' +
+                    '}';
+            case ROLE_ADMIN -> stringToPrint = "Admin{" +
+                    "name='" + name + '\'' +
+                    ", firstname='" + firstname + '\'' +
+                    '}';
+            default -> stringToPrint = "UnknownUser{" +
+                    "name='unknown'" +
+                    ", firstname='unknown'" +
+                    '}';
+        }
+        return stringToPrint;
+    }
 }

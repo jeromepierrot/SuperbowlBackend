@@ -22,7 +22,11 @@ public class Country {
     @Column(nullable = false)
     private String name;
 
-    @OneToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

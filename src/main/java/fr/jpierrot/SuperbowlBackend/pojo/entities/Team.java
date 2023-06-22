@@ -1,13 +1,16 @@
 package fr.jpierrot.SuperbowlBackend.pojo.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-import java.util.Set;
+import java.time.ZonedDateTime;
 
 
+@SuperBuilder
 @RequiredArgsConstructor
 @Getter
 @Setter
@@ -25,6 +28,29 @@ public class Team {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "team")
-    private Set<Player> players;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
+
+/*    @OneToMany(mappedBy = "team")
+    private Set<Player> players;*/
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
+    @Column(name = "creation_date")
+    private ZonedDateTime createdDate = ZonedDateTime.now();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
+    @Column(name = "modification_date")
+    private ZonedDateTime modifiedDate = ZonedDateTime.now();
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country=" + country +
+                '}';
+    }
 }

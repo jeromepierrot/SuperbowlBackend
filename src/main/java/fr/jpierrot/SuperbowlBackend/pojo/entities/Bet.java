@@ -2,9 +2,10 @@ package fr.jpierrot.SuperbowlBackend.pojo.entities;
 
 import fr.jpierrot.SuperbowlBackend.pojo.states.BetStatus;
 import jakarta.persistence.*;
-import jakarta.validation.Constraint;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.time.ZonedDateTime;
 
 @SuperBuilder
 @Getter
@@ -22,6 +23,9 @@ public class Bet {
     @JoinColumn(name = "match_id")
     private Match match;
 
+/*    @ManyToMany(mappedBy = "betslip")
+    private List<User> users;*/
+
     @Builder.Default
     @Column(name = "wager", nullable = false)
     private Float wager = 0.0f;
@@ -33,5 +37,24 @@ public class Bet {
     @Column(name ="bet_status", nullable = false)
     private BetStatus betStatus;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
+    @Column(name = "creation_date")
+    private ZonedDateTime createdDate = ZonedDateTime.now();
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
+    @Column(name = "modification_date")
+    private ZonedDateTime modifiedDate = ZonedDateTime.now();
+
+    @Override
+    public String toString() {
+        return "Bet{" +
+                "id=" + id +
+                ", match=" + match +
+                ", wager=" + wager +
+                ", finalOdds=" + finalOdds +
+                ", betStatus=" + betStatus +
+                '}';
+    }
 }

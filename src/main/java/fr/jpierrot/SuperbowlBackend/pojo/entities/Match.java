@@ -10,7 +10,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 @SuperBuilder
 @Getter
@@ -25,11 +24,11 @@ public class Match {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "team_a_team_id")
+    @JoinColumn(name = "team_a_id")
     private Team teamA;
 
     @ManyToOne
-    @JoinColumn(name = "team_b_team_id")
+    @JoinColumn(name = "team_b_id")
     private Team teamB;
 
     @Column(name = "odds_A", nullable = false)
@@ -44,8 +43,8 @@ public class Match {
     @Column(name = "score_B", nullable = true)
     private Integer scoreB;
 
-    @OneToMany(mappedBy = "match")
-    private Set<Bet> bets;
+/*    @OneToMany(mappedBy = "match")
+    private Set<Bet> bets;*/
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -64,4 +63,29 @@ public class Match {
 
     @Temporal(TemporalType.TIMESTAMP)
     private ZonedDateTime endDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
+    @Column(name = "creation_date")
+    private ZonedDateTime createdDate = ZonedDateTime.now();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
+    @Column(name = "modification_date")
+    private ZonedDateTime modifiedDate = ZonedDateTime.now();
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "teamA=" + teamA +
+                ", teamB=" + teamB +
+                ", oddsA=" + oddsA +
+                ", oddsB=" + oddsB +
+                ", scoreA=" + scoreA +
+                ", scoreB=" + scoreB +
+                ", weather=" + weather +
+                ", status=" + status +
+                ", startDate=" + startDate +
+                '}';
+    }
 }

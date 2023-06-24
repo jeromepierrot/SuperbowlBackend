@@ -44,11 +44,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 
-    @ManyToMany
-    @JoinTable(name = "users_bets",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "bet_id"))
-    private List<Bet> betslip;
+    @Builder.Default
+    @ManyToMany(mappedBy = "users")
+    private List<Bet> betslip = null;
 
     @Builder.Default
     @Column(name="is_enabled", nullable = false)

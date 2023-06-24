@@ -22,4 +22,9 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) {
         return userRepository.findUserById(id);
     }
+
+    @Override
+    public void createUser(User newUser) {
+        userRepository.save(newUser);
+    }
 }

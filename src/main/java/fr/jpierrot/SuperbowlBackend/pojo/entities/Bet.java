@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @SuperBuilder
 @Getter
@@ -23,8 +24,11 @@ public class Bet {
     @JoinColumn(name = "match_id")
     private Match match;
 
-/*    @ManyToMany(mappedBy = "betslip")
-    private List<User> users;*/
+    @ManyToMany
+    @JoinTable(name = "users_bets",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "bet_id"))
+    private List<User> users;
 
     @Builder.Default
     @Column(name = "wager", nullable = false)

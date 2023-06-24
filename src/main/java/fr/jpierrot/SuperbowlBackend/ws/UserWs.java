@@ -15,7 +15,7 @@ public class UserWs {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
@@ -25,8 +25,8 @@ public class UserWs {
         return userService.getUserById(id);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public void createUser(@RequestBody User newUser){
-        // TODO: createUser
+        userService.createUser(newUser);
     }
 }

@@ -1,5 +1,6 @@
 package fr.jpierrot.SuperbowlBackend.service.impl;
 
+import fr.jpierrot.SuperbowlBackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.SuperbowlBackend.pojo.entities.User;
 import fr.jpierrot.SuperbowlBackend.repository.UserRepository;
 import fr.jpierrot.SuperbowlBackend.service.UserService;
@@ -24,7 +25,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User newUser) {
+    public RegisterResponse createUser(User newUser) {
+
+        /* insert into database */
         userRepository.save(newUser);
+
+        String responseBody = "User is created successfully";
+
+        return RegisterResponse.builder()
+                .body(responseBody)
+                .build();
     }
 }

@@ -28,9 +28,10 @@ public class Team {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Builder.Default
     @ManyToOne
     @JoinColumn(name = "country_id")
-    private Country country;
+    private Country country = null;
 
 /*    @OneToMany(mappedBy = "team")
     private Set<Player> players;*/

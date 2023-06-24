@@ -35,6 +35,7 @@ public class UserWs {
     public ResponseEntity<RegisterResponse> createUser(@RequestBody User newUser){
 
         RegisterResponse createUserResponse = userService.createUser(newUser);
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path(ApiRegistration.API_REST+ApiRegistration.API_USER+"/{id}")
                 .buildAndExpand(newUser.getId())
@@ -44,5 +45,26 @@ public class UserWs {
         responseHeaders.set("ResponseHeader", "createUser");
 
         return ResponseEntity.created(location).header(responseHeaders.toString()).body(createUserResponse);
+    }
+
+    @PutMapping(path="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RegisterResponse> updateUserById(@RequestBody User userToUpdate, @PathVariable("id") Long id) {
+
+        RegisterResponse updateUserResponse = userService.updateUserById(userToUpdate, id);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path(ApiRegistration.API_REST+ApiRegistration.API_USER+"/{id}")
+                .buildAndExpand(userToUpdate.getId())
+                .toUri();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+        responseHeaders.set("ResponseHeader", "updateUser");
+
+        return ResponseEntity.created(location).header(responseHeaders.toString()).body(updateUserResponse);
+    }
+
+    @DeleteMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RegisterResponse> deleteUserById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(userService.deleteUserById(id));
     }
 }

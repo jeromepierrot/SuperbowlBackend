@@ -11,4 +11,9 @@ public interface UserService {
     User getUserById(Long id);
 
     RegisterResponse createUser(User newUser);
+
+    RegisterResponse updateUserById(User user, Long id);
+
+    RegisterResponse deleteUserById(Long id);
+
 }

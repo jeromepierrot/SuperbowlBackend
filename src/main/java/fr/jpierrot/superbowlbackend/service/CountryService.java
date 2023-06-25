@@ -9,5 +9,5 @@ public interface CountryService {
 
     Country getCountryById(Long id);
 
-    List<Country> getCountryByName(String teamName);
+    List<Country> getCountryByName(String countryName);
 }

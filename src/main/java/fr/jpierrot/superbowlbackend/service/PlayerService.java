@@ -9,5 +9,8 @@ public interface PlayerService {
 
     List<Player> getAllPlayersByTeamId(Long teamId);
 
+    List<Player> getAllPlayersByTeamName(String teamName);
+
     Player getPlayerById(Long id);
+
 }

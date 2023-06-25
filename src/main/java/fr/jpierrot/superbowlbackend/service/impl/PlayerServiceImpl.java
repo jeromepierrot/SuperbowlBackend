@@ -24,7 +24,14 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public List<Player> getAllPlayersByTeamName(String teamName) {
+        return playerRepository.findPlayersByTeamContainsOrderByNumber(teamName);
+    }
+
+    @Override
     public Player getPlayerById(Long id) {
         return playerRepository.findPlayerById(id);
     }
+
+
 }

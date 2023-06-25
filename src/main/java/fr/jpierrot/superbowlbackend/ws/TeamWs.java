@@ -46,11 +46,12 @@ public class TeamWs {
 
     @GetMapping(path="/search", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<Team> searchTeamsByNameOrCountry(
+    public List<Team> searchTeamsByNameOrByCountry(
             @RequestParam(name= "id", required = false) Long id,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "country_id", required = false) Long countryId,
             @RequestParam(name = "country", required = false) String countryName) {
+
         List<Team> foundTeams = new ArrayList<>();
         if(countryId == null && countryName == null) {
             if(id != null && name == null) {

@@ -131,4 +131,54 @@ public class TeamWsTest extends MockMvcTest {
         assertEquals(expectedContentJson, content);
 
     }
+
+    @Test
+    public void updateTeamByIdTest() throws Exception {
+        String path = "/api/teams/10";
+        Team teamToUpdate = new Team();
+        teamToUpdate.setName("Updated team");
+        String inputJson = super.mapToJson(teamToUpdate);
+
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
+                        .put(path)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(inputJson))
+                .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(201, status);
+
+        Map<String, String> expectedContent = new HashMap<>();
+        expectedContent.put("body", "Data is updated successfully");
+
+        String expectedContentJson = super.mapToJson(expectedContent);
+
+        String content = mvcResult.getResponse().getContentAsString();
+        assertEquals(expectedContentJson, content);
+    }
+
+    @Test
+    public void updateTeamByNameTest() throws Exception {
+        String path = "/api/teams/name/999";
+        Team teamToUpdate = new Team();
+        teamToUpdate.setName("Updated team");
+        String inputJson = super.mapToJson(teamToUpdate);
+
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
+                        .put(path)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(inputJson))
+                .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(201, status);
+
+        Map<String, String> expectedContent = new HashMap<>();
+        expectedContent.put("body", "Data is updated successfully");
+
+        String expectedContentJson = super.mapToJson(expectedContent);
+
+        String content = mvcResult.getResponse().getContentAsString();
+        assertEquals(expectedContentJson, content);
+    }
 }

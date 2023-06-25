@@ -17,6 +17,12 @@ public interface TeamService {
 
     RegisterResponse createTeam(Team newnewTeam);
 
-    RegisterResponse updateTeamById(Team user, Long id);
-/*    RegisterResponse updateTeamByName(Team user, String teamName);*/
+    RegisterResponse updateTeamById(Team team, Long id);
+
+    RegisterResponse updateTeamByIdWithCountryId(Team team, Long teamId, Long countryId);
+
+    RegisterResponse updateTeamByName(Team user, String teamName);
+
+    RegisterResponse updateTeamByNameWithCountryId(Team team, String oldTeamName, Long countryId);
+
 }

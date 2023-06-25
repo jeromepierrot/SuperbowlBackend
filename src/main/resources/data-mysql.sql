@@ -107,7 +107,7 @@ VALUES
         ('Legantier', 'Roger', 1, now(), now()
     );
 
-# Matchs table
+# Matches table
 
 # bets table
 INSERT INTO `bets`(`bet_status`, `creation_date`, `final_odds`, `modification_date`, `wager`, `match_id`)

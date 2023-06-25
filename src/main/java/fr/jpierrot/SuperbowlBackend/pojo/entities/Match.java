@@ -16,7 +16,7 @@ import java.time.ZonedDateTime;
 @Setter
 @RequiredArgsConstructor
 @Entity
-@Table(name = "matchs")
+@Table(name = "matches")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +48,7 @@ public class Match {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private Weather weather = Weather.WEATHER_UNKONWN;
+    private Weather weather = Weather.WEATHER_UNKNOWN;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)

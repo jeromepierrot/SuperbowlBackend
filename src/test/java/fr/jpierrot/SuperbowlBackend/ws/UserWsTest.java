@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class UserWsTest extends MockMvcTest {
-
     @Override
     @Before
     public void init() {
@@ -26,7 +25,7 @@ public class UserWsTest extends MockMvcTest {
     public void getAllUsersTest() throws Exception {
         String path = "/api/users";
 
-        MvcResult mvcResult =mvc.perform(MockMvcRequestBuilders
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
                 .get(path)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
@@ -43,7 +42,7 @@ public class UserWsTest extends MockMvcTest {
     public void getUserByIdTest() throws Exception {
         String path = "/api/users/2";
 
-        MvcResult mvcResult =mvc.perform(MockMvcRequestBuilders
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
                         .get(path)
                         .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();
@@ -69,7 +68,7 @@ public class UserWsTest extends MockMvcTest {
         userToCreate.setIsPwdChecked(true);
 
         String inputJson = super.mapToJson(userToCreate);
-        MvcResult mvcResult =mvc.perform(MockMvcRequestBuilders
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
                 .post(path)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(inputJson))
@@ -96,7 +95,7 @@ public class UserWsTest extends MockMvcTest {
         userToUpdate.setFirstname("Jane");
 
         String inputJson = super.mapToJson(userToUpdate);
-        MvcResult mvcResult =mvc.perform(MockMvcRequestBuilders
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
                         .put(path)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(inputJson))
@@ -116,9 +115,9 @@ public class UserWsTest extends MockMvcTest {
 
     @Test
     public void deleteUserByIdTest() throws Exception {
-        String path = "/api/users/6";
+        String path = "/api/users/9";
 
-        MvcResult mvcResult =mvc.perform(MockMvcRequestBuilders
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
                         .delete(path)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andReturn();

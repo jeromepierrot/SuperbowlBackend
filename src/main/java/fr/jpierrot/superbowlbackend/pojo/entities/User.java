@@ -43,10 +43,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
 
-/*    @Builder.Default
-    @ManyToMany(mappedBy = "users")
-    private List<Bet> betslip = null;*/
-
     @Builder.Default
     @Column(name="is_enabled", nullable = false)
     private Boolean isEnabled = false;

@@ -59,7 +59,6 @@ public class UserWsTest extends MockMvcTest {
     public void createUserTest() throws Exception {
         String path = "/api/users";
         User userToCreate = new User();
-        userToCreate.setId(6L);
         userToCreate.setName("Doe");
         userToCreate.setFirstname("John");
         userToCreate.setEmail("john.doe@doedoedoe.fr");
@@ -115,7 +114,7 @@ public class UserWsTest extends MockMvcTest {
 
     @Test
     public void deleteUserByIdTest() throws Exception {
-        String path = "/api/users/9";
+        String path = "/api/users/6";
 
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
                         .delete(path)

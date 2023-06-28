@@ -9,9 +9,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(ApiRegistration.API_REST
@@ -21,30 +21,28 @@ public class UserWs {
     @Autowired
     private UserService userService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
     @GetMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserById(@PathVariable("id") Long id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path="/new", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisterResponse> createUser(@RequestBody User newUser){
 
         RegisterResponse createUserResponse = userService.createUser(newUser);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(ApiRegistration.API_REST+ApiRegistration.API_USER+"/{id}")
+        URI location = UriComponentsBuilder.fromPath(ApiRegistration.API_REST+ApiRegistration.API_USER)
+                .path("/{id}")
                 .buildAndExpand(newUser.getId())
                 .toUri();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
         responseHeaders.set("ResponseHeader", "createUser");
 
-        return ResponseEntity.created(location).header(responseHeaders.toString()).body(createUserResponse);
+        return ResponseEntity
+                .created(location)
+                .header(responseHeaders.toString())
+                .body(createUserResponse);
     }
 
     @PutMapping(path="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,18 +51,16 @@ public class UserWs {
         RegisterResponse updateUserResponse = userService.updateUserById(userToUpdate, id);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(ApiRegistration.API_REST+ApiRegistration.API_USER+"/{id}")
+                .path("/{id}")
                 .buildAndExpand(userToUpdate.getId())
                 .toUri();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
         responseHeaders.set("ResponseHeader", "updateUser");
 
-        return ResponseEntity.created(location).header(responseHeaders.toString()).body(updateUserResponse);
-    }
-
-    @DeleteMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> deleteUserById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(userService.deleteUserById(id));
+        return ResponseEntity
+                .created(location)
+                .header(responseHeaders.toString())
+                .body(updateUserResponse);
     }
 }

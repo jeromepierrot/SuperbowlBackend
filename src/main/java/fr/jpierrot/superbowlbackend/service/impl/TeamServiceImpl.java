@@ -50,7 +50,7 @@ public class TeamServiceImpl implements TeamService {
     /**
      * Careful: this method, with a 's' after 'team', returns a list of teams for searching purposes
      * If you need to find one single team, please use getOneTeamByNameOrNull(teamName), 'team' without 's'
-     * */
+     */
     public List<Team> getTeamsByName(String searchTeamName) {
         return teamRepository.findTeamByName(searchTeamName);
     }
@@ -73,7 +73,7 @@ public class TeamServiceImpl implements TeamService {
         String responseBody = RegisterResponse.OK_201_CREATED;
 
         return RegisterResponse.builder()
-                .body(responseBody)
+                .message(responseBody)
                 .build();
     }
 
@@ -101,7 +101,7 @@ public class TeamServiceImpl implements TeamService {
             }
 
         return RegisterResponse.builder()
-                .body(responseBody)
+                .message(responseBody)
                 .build();
     }
 
@@ -117,24 +117,24 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public RegisterResponse updateTeamByNameWithCountryId(Team team, String oldTeamName, Long countryId) {
         Team teamToUpdate;
-        List<Team> responseTeams = teamRepository.findTeamByName(oldTeamName);
+        List<Team> foundTeams = teamRepository.findTeamByName(oldTeamName);
         String responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
 
-        if(responseTeams != null && responseTeams.size() == 1) {
-            teamToUpdate = responseTeams.get(0);
+        if(foundTeams != null && foundTeams.size() == 1) {
+            teamToUpdate = foundTeams.get(0);
 
             this.updateTeamWithNewCountryId(teamToUpdate, team.getName(), countryId);
 
             /* update into database */
             teamRepository.save(teamToUpdate);
             responseBody = RegisterResponse.OK_201_UPDATED;
-        } else if (responseTeams != null && responseTeams.size() > 1) {
+        } else if (foundTeams != null && foundTeams.size() > 1) {
             /* Multiple resources: cannot identify the correct one, and so, cannot process the request */
             responseBody = ErrorResponse.ERROR_405_NOT_ALLOWED;
         }
 
         return RegisterResponse.builder()
-                .body(responseBody)
+                .message(responseBody)
                 .build();
     }
 

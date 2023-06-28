@@ -16,7 +16,8 @@ public interface PlayerRepository extends CrudRepository<Player, Long> {
     @Query("SELECT p FROM Player p WHERE p.team.id = ?1")
     List<Player> findAllPlayersByTeamId(Long teamId);
 
-    List<Player> findPlayersByTeamContainsOrderByNumber(String teamName);
+    @Query("SELECT p FROM Player p WHERE p.team.name LIKE %?1%")
+    List<Player> findPlayersByTeamName(String teamName);
 
     Player findPlayerById(Long id);
 }

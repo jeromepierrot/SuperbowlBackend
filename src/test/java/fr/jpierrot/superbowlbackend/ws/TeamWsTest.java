@@ -41,7 +41,7 @@ public class TeamWsTest extends MockMvcTest {
 
     @Test
     public void getTeamByIdTest() throws Exception {
-        String path = "/api/teams/2";
+        String path = "/api/teams/?id=2";
 
         MvcResult mvcResult =mvc.perform(MockMvcRequestBuilders
                         .get(path)
@@ -58,7 +58,7 @@ public class TeamWsTest extends MockMvcTest {
 
     @Test
     public void getTeamByNameTest() throws Exception {
-        String path = "/api/teams/name/test";
+        String path = "/api/teams/name/team";
 
         MvcResult mvcResult =mvc.perform(MockMvcRequestBuilders
                         .get(path)

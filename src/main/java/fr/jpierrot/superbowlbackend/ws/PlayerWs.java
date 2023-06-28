@@ -35,8 +35,8 @@ public class PlayerWs {
 
     @GetMapping("/team")
     List<Player> getPlayersForTeamByTeamName(
-            @RequestParam(name= "id", required = false) Long teamId,
-            @RequestParam(name = "name", required = false) String teamName) {
+            @RequestParam(name= "team_id", required = false) Long teamId,
+            @RequestParam(name = "team_name", required = false) String teamName) {
 
             if(teamId != null && teamName == null) {
                 return playerService.getAllPlayersByTeamId(teamId);

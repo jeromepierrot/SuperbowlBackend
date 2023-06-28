@@ -29,52 +29,49 @@ public class TeamWs {
         return teamService.getAllTeams();
     }
 
-    @GetMapping(path="/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Team getTeamByIdOrByName(
-            @RequestParam(name= "id", required = false) Long id,
-            @RequestParam(name = "name", required = false) String name) {
+    public Team getTeamById(@PathVariable("id") Long id) {
+        return teamService.getTeamById(id);
+    }
 
-        if(id != null && name == null) {
-            return teamService.getTeamById(id);
-        }
-        if (name != null && id == null) {
+    @GetMapping(path="/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Team getTeamByName(
+            @PathVariable("name") String name) {
             return teamService.getOneTeamByNameOrNull(name);
-        }
-        return null;
     }
 
     @GetMapping(path="/search", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Team> searchTeamsByNameOrByCountry(
-            @RequestParam(name= "id", required = false) Long id,
-            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name= "team_id", required = false) Long teamId,
+            @RequestParam(name = "team_name", required = false) String teamName,
             @RequestParam(name = "country_id", required = false) Long countryId,
-            @RequestParam(name = "country", required = false) String countryName) {
+            @RequestParam(name = "country_name", required = false) String countryName) {
 
         List<Team> foundTeams = new ArrayList<>();
         if(countryId == null && countryName == null) {
-            if(id != null && name == null) {
-                foundTeams.add(teamService.getTeamById(id));
-            } else if (name != null && id == null) {
-                foundTeams = teamService.getTeamsByName(name);
+            if(teamId != null && teamName == null) {
+                foundTeams.add(teamService.getTeamById(teamId));
+            } else if (teamName != null && teamId == null) {
+                foundTeams = teamService.getTeamsByName(teamName);
             } else {
+                /* We don't process if 2 parameters ore more */
                 foundTeams = Collections.emptyList();
             }
-        } else if (countryId != null && countryName == null) {
-            if(id != null && name == null) {
-                foundTeams = teamService.getTeamByIdAndCountryId(id, countryId);
-            } else if (name != null && id == null) {
-                foundTeams = teamService.getTeamsByNameAndCountryId(name, countryId);
+        } else if (countryId != null && countryName == null) { /*(countryId != null)*/
+            if(teamId == null && teamName == null) {
+                foundTeams = teamService.getTeamByCountryId(countryId);
             } else {
+                /* We don't process if 2 parameters ore more */
                 foundTeams = Collections.emptyList();
             }
         } else /*(countryName != null)*/ {
-            if(id != null && name == null) {
-                foundTeams = (teamService.getTeamByIdAndCountryName(id, countryName));
-            } else if (name != null && id == null) {
-                foundTeams = teamService.getTeamsByNameAndCountryName(name, countryName);
+            if(teamId == null && teamName == null) {
+                foundTeams = teamService.getTeamByCountryName(countryName);
             } else {
+                /* We don't process if 2 parameters ore more */
                 foundTeams = Collections.emptyList();
             }
         }
@@ -90,12 +87,12 @@ public class TeamWs {
     @GetMapping(path = "/country", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Team> getTeamByCountryName(
-            @RequestParam(name= "id", required = false) Long id,
-            @RequestParam(name = "name", required = false) String name) {
-        if(id != null && name == null) {
-            return teamService.getTeamByCountryId(id);
-        } else if (name != null && id == null) {
-            return teamService.getTeamByCountryName(name);
+            @RequestParam(name= "country_id", required = false) Long countryId,
+            @RequestParam(name = "country_name", required = false) String countryName) {
+        if(countryId != null && countryName == null) {
+            return teamService.getTeamByCountryId(countryId);
+        } else if (countryName != null && countryId == null) {
+            return teamService.getTeamByCountryName(countryName);
         } else {
             return Collections.emptyList();
         }

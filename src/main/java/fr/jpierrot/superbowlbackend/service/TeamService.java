@@ -6,6 +6,10 @@ import fr.jpierrot.superbowlbackend.pojo.entities.Team;
 import java.util.List;
 
 public interface TeamService {
+
+    // TEAMS MANAGEMENT SERVICES: Read/ReadAll //
+    // For ALL
+
     List<Team> getAllTeams();
 
     Team getTeamById(Long id);
@@ -15,7 +19,19 @@ public interface TeamService {
     List<Team> getTeamsByName(String searchTeamName);
 
     List<Team> getTeamByCountryId(Long id);
+
     List<Team> getTeamByCountryName(String name);
+
+    List<Team> getTeamByIdAndCountryId(Long id, Long countryId);
+
+    List<Team> getTeamsByNameAndCountryId(String name, Long countryId);
+
+    List<Team> getTeamByIdAndCountryName(Long id, String countryName);
+
+    List<Team> getTeamsByNameAndCountryName(String name, String countryName);
+
+    // TEAMS MANAGEMENT SERVICES: Create/Update/Delete //
+    // For ADMINS
 
     RegisterResponse createTeam(Team newnewTeam);
 
@@ -27,11 +43,4 @@ public interface TeamService {
 
     RegisterResponse updateTeamByNameWithCountryId(Team team, String oldTeamName, Long countryId);
 
-    List<Team> getTeamByIdAndCountryId(Long id, Long countryId);
-
-    List<Team> getTeamsByNameAndCountryId(String name, Long countryId);
-
-    List<Team> getTeamByIdAndCountryName(Long id, String countryName);
-
-    List<Team> getTeamsByNameAndCountryName(String name, String countryName);
 }

@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
         // TODO : Encrypt the password when security is up
         admin = Admin.builder()
                 .firstname(newAdmin.getFirstname())
-                .name(newAdmin.getName())
+                .lastname(newAdmin.getLastname())
                 .email(newAdmin.getEmail())
                 .password(newAdmin.getPassword())
                 .isEnabled(true)

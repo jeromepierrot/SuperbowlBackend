@@ -59,7 +59,7 @@ public class UserWsTest extends MockMvcTest {
     public void createUserTest() throws Exception {
         String path = "/api/users";
         User userToCreate = new User();
-        userToCreate.setName("Doe");
+        userToCreate.setLastname("Doe");
         userToCreate.setFirstname("John");
         userToCreate.setEmail("john.doe@doedoedoe.fr");
         userToCreate.setPassword("1234");
@@ -90,7 +90,7 @@ public class UserWsTest extends MockMvcTest {
     public void updateUserByIdTest() throws Exception {
         String path = "/api/users/6";
         User userToUpdate = new User();
-        userToUpdate.setName("Dae");
+        userToUpdate.setLastname("Dae");
         userToUpdate.setFirstname("Jane");
 
         String inputJson = super.mapToJson(userToUpdate);

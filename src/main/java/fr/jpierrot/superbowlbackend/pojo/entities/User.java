@@ -33,8 +33,8 @@ public class User {
     @Column(name="password", nullable = false)
     private String password;
 
-    @Column(name="name", nullable = false)
-    private String name;
+    @Column(name="lastname", nullable = false)
+    private String lastname;
 
     @Column(name="firstname", nullable = false)
     private String firstname;
@@ -66,7 +66,7 @@ public class User {
      */
     public boolean hasRequiredFields() {
         return this.getEmail() != null && !this.getEmail().isEmpty()
-                && this.getName() != null && !this.getName().isEmpty()
+                && this.getLastname() != null && !this.getLastname().isEmpty()
                 && this.getFirstname() != null && !this.getFirstname().isEmpty()
                 && this.getPassword() != null && !this.getPassword().isEmpty();
     }

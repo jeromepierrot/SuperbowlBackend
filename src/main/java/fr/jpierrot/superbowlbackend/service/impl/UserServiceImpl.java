@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
         // TODO : Encrypt the password when security is up
         userToCreate = User.builder()
                 .email(newUser.getEmail())
-                .name(newUser.getName())
+                .lastname(newUser.getLastname())
                 .firstname(newUser.getFirstname())
                 .password(newUser.getPassword())
                 .isEnabled(true)
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
             if(userToUpdate.isActivated()) {
                 // only name and firstname can be modified with this method
                 // email = login and password need special method to be updated
-                userToUpdate.setName(user.getName());
+                userToUpdate.setLastname(user.getLastname());
                 userToUpdate.setFirstname(user.getFirstname());
                 userRepository.save(userToUpdate);
                 responseBody = RegisterResponse.OK_201_UPDATED;

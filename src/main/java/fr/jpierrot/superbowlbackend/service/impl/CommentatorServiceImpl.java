@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CommmentatorServiceImpl implements CommentatorService {
+public class CommentatorServiceImpl implements CommentatorService {
     @Autowired
     private CommentatorRepository commentatorRepository;
 
@@ -26,6 +26,7 @@ public class CommmentatorServiceImpl implements CommentatorService {
         List<Commentator> commentatorsList = commentatorRepository.findAllByRoleIs(Role.ROLE_COMMENTATOR);
 
         if(commentatorsList.isEmpty()) {
+            // TODO: implementation
             return null;
         }
         return commentatorsList;
@@ -46,7 +47,7 @@ public class CommmentatorServiceImpl implements CommentatorService {
         // TODO: Encrypt the password when security is up
         commentator = Commentator.builder()
                 .firstname(newCommentator.getFirstname())
-                .name(newCommentator.getName())
+                .lastname(newCommentator.getLastname())
                 .email(newCommentator.getEmail())
                 .password(newCommentator.getPassword())
                 .isEnabled(true)
@@ -73,7 +74,7 @@ public class CommmentatorServiceImpl implements CommentatorService {
         // TODO : Encrypt the password when security is up
         commentatorToUpdate = Commentator.builder()
                 .firstname(commentator.getFirstname())
-                .name(commentator.getName())
+                .lastname(commentator.getLastname())
                 .email(commentator.getEmail())
                 .password(commentator.getPassword())
                 .role(Role.ROLE_COMMENTATOR)

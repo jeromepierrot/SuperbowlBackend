@@ -18,7 +18,7 @@ public class Player {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String lastname;
 
     @Column(nullable = false)
     private String firstname;
@@ -44,7 +44,7 @@ public class Player {
     public String toString() {
         return "Player{" +
                 "Id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", number=" + number +
                 ", team=" + team +

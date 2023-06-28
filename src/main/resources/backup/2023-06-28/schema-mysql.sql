@@ -70,63 +70,63 @@ CREATE TABLE countries (
 );
 
 CREATE TABLE matches (
-                         id bigint not null auto_increment,
-                         team_a_id bigint,
-                         team_b_id bigint,
-                         start_date datetime(6),
-                         end_date datetime(6),
-                         odds_a float(23) not null,
-                         odds_b float(23) not null,
-                         score_a integer,
-                         score_b integer,
-                         status varchar(255),
-                         weather varchar(255),
-                         is_enabled bit not null,
-                         creation_date datetime(6),
-                         modification_date datetime(6),
-                         primary key (id)
+id bigint not null auto_increment,
+team_a_id bigint,
+team_b_id bigint,
+start_date datetime(6),
+end_date datetime(6),
+odds_a float(23) not null,
+odds_b float(23) not null,
+score_a integer,
+score_b integer,
+status varchar(255),
+weather varchar(255),
+is_enabled bit not null,
+creation_date datetime(6),
+modification_date datetime(6),
+primary key (id)
 );
 
 CREATE TABLE players (
-                         id bigint not null auto_increment,
-                         lastname varchar(255) not null,
-                         firstname varchar(255) not null,
-                         number integer not null,
-                         team_id bigint,
-                         creation_date datetime(6),
-                         modification_date datetime(6),
-                         primary key (id)
+id bigint not null auto_increment,
+lastname varchar(255) not null,
+firstname varchar(255) not null,
+number integer not null,
+team_id bigint,
+creation_date datetime(6),
+modification_date datetime(6),
+primary key (id)
 );
 
 CREATE TABLE teams (
-                       id bigint not null auto_increment,
-                       name varchar(255) not null,
-                       country_id bigint,
-                       creation_date datetime(6),
-                       modification_date datetime(6),
-                       primary key (id)
+id bigint not null auto_increment,
+name varchar(255) not null,
+country_id bigint,
+creation_date datetime(6),
+modification_date datetime(6),
+primary key (id)
 );
 
 CREATE TABLE users (
-                       type varchar(31) not null,
-                       id bigint not null auto_increment,
-                       email varchar(255) not null,
-                       password varchar(255) not null,
-                       lastname varchar(255) not null,
-                       firstname varchar(255) not null,
-                       is_enabled bit not null,
-                       is_pwd_checked bit not null,
-                       role varchar(255),
-                       is_super_admin bit,
-                       creation_date datetime(6),
-                       modification_date datetime(6),
-                       primary key (id)
+type varchar(31) not null,
+id bigint not null auto_increment,
+email varchar(255) not null,
+password varchar(255) not null,
+lastname varchar(255) not null,
+firstname varchar(255) not null,
+is_enabled bit not null,
+is_pwd_checked bit not null,
+role varchar(255),
+is_super_admin bit,
+creation_date datetime(6),
+modification_date datetime(6),
+primary key (id)
 );
 
 CREATE TABLE users_bets (
-                            bet_id bigint not null,
-                            user_id bigint not null,
-                            primary key (bet_id, user_id)
+bet_id bigint not null,
+user_id bigint not null,
+primary key (bet_id, user_id)
 );
 
 ALTER TABLE IF EXISTS countries

@@ -16,5 +16,5 @@ import lombok.NoArgsConstructor;
 public class ForgotPwdResponse {
     public static final String OK_201_AUTO_PASSWORD = "Temporary access granted successfully";
 
-    private String body;
+    private String message;
 }

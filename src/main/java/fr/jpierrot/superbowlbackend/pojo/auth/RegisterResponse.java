@@ -14,6 +14,6 @@ public class RegisterResponse {
     public static final String OK_201_UPDATED = "Data is updated successfully";
     public static final String OK_201_DELETED = "Data is deleted successfully";
 
-    private String body;
-
+    private String message;
+    private Long id;
 }

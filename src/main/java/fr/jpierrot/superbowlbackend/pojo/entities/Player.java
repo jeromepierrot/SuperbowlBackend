@@ -27,7 +27,7 @@ public class Player {
     private Integer number;
 
     @ManyToOne
-    @JoinColumn(name = "team_id")
+    @JoinColumn(name = "team_id", foreignKey = @ForeignKey(name = "FK_players_team"))
     private Team team;
 
     @Temporal(TemporalType.TIMESTAMP)

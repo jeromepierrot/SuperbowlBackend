@@ -60,4 +60,39 @@ public class User {
     @Builder.Default
     @Column(name = "modification_date")
     private ZonedDateTime modifiedDate = ZonedDateTime.now();
+
+    /**
+     * Check if User instance has fullfilled all required fields
+     */
+    public boolean hasRequiredFields() {
+        return this.getEmail() != null && !this.getEmail().isEmpty()
+                && this.getName() != null && !this.getName().isEmpty()
+                && this.getFirstname() != null && !this.getFirstname().isEmpty()
+                && this.getPassword() != null && !this.getPassword().isEmpty();
+    }
+
+    /**
+     * Check if User instance has an activated account,
+     * meaning both isEnabled and isPwsChecked are true
+     */
+    public boolean isActivated() {
+        return this.getIsEnabled() && this.getIsPwdChecked();
+    }
+
+    /**
+     * Check if User instance has an enabled account,
+     * disabled mean the user is either banished or has an issue
+     */
+    public boolean isEnabled() {
+        return this.getIsEnabled();
+    }
+
+    /**
+     * Check if User's account is verified,
+     * disabled mean the user didn't change his auto-generated password yet
+     * (= temporary password active)
+     */
+    public boolean isPwdChecked() {
+        return this.getIsPwdChecked();
+    }
 }

@@ -20,7 +20,7 @@ public class Bet {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "match_id")
+    @JoinColumn(name = "match_id", foreignKey = @ForeignKey(name = "FK_bets_match"))
     private Match match;
 
     @Builder.Default

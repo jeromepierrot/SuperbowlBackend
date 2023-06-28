@@ -23,13 +23,15 @@ public class Match {
     @Column(name = "id")
     private Long id;
 
+    @Builder.Default
     @ManyToOne
-    @JoinColumn(name = "team_a_id")
-    private Team teamA;
+    @JoinColumn(name = "team_a_id", foreignKey = @ForeignKey(name = "FK_matches_team_a"))
+    private Team teamA = null;
 
+    @Builder.Default
     @ManyToOne
-    @JoinColumn(name = "team_b_id")
-    private Team teamB;
+    @JoinColumn(name = "team_b_id", foreignKey = @ForeignKey(name = "FK_matches_team_b"))
+    private Team teamB = null;
 
     @Column(name = "odds_A", nullable = false)
     private float oddsA;

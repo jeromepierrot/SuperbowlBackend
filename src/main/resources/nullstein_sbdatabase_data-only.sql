@@ -45,16 +45,16 @@ INSERT INTO `countries` (`id`, `name`) VALUES
 --
 
 INSERT INTO `teams` (`id`, `creation_date`, `modification_date`, `name`, `country_id`) VALUES
-(1, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000', 'Les chaussettes de Boston', 1),
-(2, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000', 'Les Dino perdus de Denver', 2),
-(3, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000', 'Les sirènes poilues d\'Atlanta', 6),
-(4, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000', 'Les canniches vaudous endormis de Nashville', 4),
-(5, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000', 'Les castors farcis de Phoenix', 5),
-(6, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000', 'Les framboises maudites de Omaha', 3),
-(7, '2023-06-25 13:40:32.150292', '2023-06-25 13:40:32.150318', 'Nouvelle équipe', NULL),
-(8, '2023-06-25 13:41:49.295950', '2023-06-25 13:41:49.295974', 'New Team', 3),
-(10, '2023-06-25 14:24:03.741012', '2023-06-25 14:24:03.741031', 'Updated team', 7),
-(13, '2023-06-25 17:44:24.145032', '2023-06-25 17:44:24.145055', 'Nouvelle équipe test', NULL);
+(1, '2023-06-24 20:23:22.000000', NOW(), 'Les chaussettes de Boston', 1),
+(2, '2023-06-24 20:23:22.000000', NOW(), 'Les Dino perdus de Denver', 2),
+(3, '2023-06-24 20:23:22.000000', NOW(), 'Les sirènes poilues d\'Atlanta', 6),
+(4, '2023-06-24 20:23:22.000000', NOW(), 'Les canniches vaudous endormis de Nashville', 4),
+(5, '2023-06-24 20:23:22.000000', NOW(), 'Les castors farcis de Phoenix', 5),
+(6, '2023-06-24 20:23:22.000000', NOW(), 'Les framboises maudites de Omaha', 3),
+(7, '2023-06-25 13:40:32.150292', NOW(), 'Nouvelle équipe', NULL),
+(8, '2023-06-25 13:41:49.295950', NOW(), 'New Team', 3),
+(10, '2023-06-25 14:24:03.741012', 'NOW()', 'Updated team', 7),
+(13, '2023-06-25 17:44:24.145032', 'NOW()', 'Nouvelle équipe test', NULL);
 
 -- --------------------------------------------------------
 
@@ -116,7 +116,7 @@ INSERT INTO `users_bets` (`user_id`, `bet_id`) VALUES
 (1, 1),
 (2, 2),
 (2, 3),
-(10, 5),
+(10, 4),
 (10, 5),
 (10, 6),
 (3, 7),

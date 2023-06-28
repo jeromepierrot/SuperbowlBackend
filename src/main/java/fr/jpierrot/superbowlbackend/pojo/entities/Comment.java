@@ -20,12 +20,12 @@ public class Comment {
     @Column(name = "id")
     private  Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "match_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "match_id", foreignKey = @ForeignKey(name = "FK_comments_match"))
     private Match match;
 
-    @ManyToOne
-    @JoinColumn(name = "commentator_user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commentator_user_id", foreignKey = @ForeignKey(name = "FK_comments_commentator"))
     private Commentator commentator;
 
     private String postContent;

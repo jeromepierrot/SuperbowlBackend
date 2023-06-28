@@ -13,13 +13,13 @@ public class UsersBets {
     @EmbeddedId
     private UsersBetsKey id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_usersbets_user"))
     User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("betId")
-    @JoinColumn(name = "bet_id")
+    @JoinColumn(name = "bet_id", foreignKey = @ForeignKey(name = "FK_usersbets_bet"))
     Bet betslip;
 }

@@ -30,7 +30,7 @@ public class Team {
 
     @Builder.Default
     @ManyToOne
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "FK_teams_country"))
     private Country country = null;
 
 /*    @OneToMany(mappedBy = "team")

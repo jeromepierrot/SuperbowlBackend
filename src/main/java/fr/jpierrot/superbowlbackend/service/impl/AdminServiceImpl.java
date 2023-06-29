@@ -4,7 +4,6 @@ import fr.jpierrot.superbowlbackend.pojo.auth.ErrorResponse;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Admin;
 import fr.jpierrot.superbowlbackend.pojo.entities.Role;
-import fr.jpierrot.superbowlbackend.pojo.entities.User;
 import fr.jpierrot.superbowlbackend.repository.AdminRepository;
 import fr.jpierrot.superbowlbackend.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,38 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public RegisterResponse updateAdminById(Admin admin, Long id) {
-        return null;
+        return updateAdminByIdWithRole(admin, id, Role.ROLE_ADMIN);
+    }
+
+    @Override
+    public RegisterResponse updateAdminByIdWithRole(Admin admin, Long id, Role role) {
+        Admin adminToUpdate;
+        String responseBody = ErrorResponse.ERROR_404_NOT_FOUND; /* Default error message*/
+
+        if(adminRepository.existsById(id)){
+            adminToUpdate = adminRepository.findByIdAndRoleIs(id, role);
+            if(adminToUpdate != null) {
+                if(adminToUpdate.isActivated() && adminToUpdate.hasRole(role)) {
+                    // only name and firstname can be modified with this method
+                    // email = login and password need special method to be updated
+                    adminToUpdate.setLastname(admin.getLastname());
+                    adminToUpdate.setFirstname(admin.getFirstname());
+                    adminToUpdate.setEmail(admin.getEmail());
+                    adminRepository.save(adminToUpdate);
+                    responseBody = RegisterResponse.OK_201_UPDATED;
+                } else if (!adminToUpdate.isEnabled() || !adminToUpdate.hasRole(role)) {
+                    responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+                } else if (!adminToUpdate.isPwdChecked()) {
+                    responseBody = ErrorResponse.ERROR_401_ACCOUNT_NOT_CHECKED;
+                } else {
+                    responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
+                }
+            }
+        }
+
+        return RegisterResponse.builder()
+                .message(responseBody)
+                .build();
     }
 
 
@@ -81,13 +111,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public RegisterResponse deleteAdminByIdWithRole(Long id, Role role) {
         String responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
-        User adminToDelete = new Admin();
-        if(adminRepository.existsById(id)) {
-            // Check ROLE before deleting, must be ROLE_USER
-            adminToDelete = adminRepository.findAdminById(id);
-            if(adminToDelete.getRole() == role) {
+
+        Admin adminToDelete = adminRepository.findByIdAndRoleIs(id, role);
+        if (adminToDelete != null) {
+            if (adminToDelete.hasRole(role)) { // Check ROLE before deleting, must be ROLE_ADMIN
                 try {
-                    adminRepository.findAdminById(id);
+                    adminRepository.deleteById(id);
                     responseBody = RegisterResponse.OK_201_DELETED;
                 } catch (Exception e) {
                     responseBody = e.getMessage().toLowerCase();
@@ -99,5 +128,6 @@ public class AdminServiceImpl implements AdminService {
         return RegisterResponse.builder()
                 .message(responseBody)
                 .build();
+
     }
 }

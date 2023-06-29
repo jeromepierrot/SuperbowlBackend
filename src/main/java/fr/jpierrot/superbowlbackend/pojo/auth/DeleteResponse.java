@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeleteResponse {
-    public static final String OK_200_CREATED = "Data deleted with success";
+    public static final String OK_200_DELETED = "Data has been deleted with success";
     private String body;
 }

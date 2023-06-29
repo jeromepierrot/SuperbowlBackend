@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterResponse {
-    public static final String OK_201_CREATED = "Data is created successfully";
-    public static final String OK_201_UPDATED = "Data is updated successfully";
-    public static final String OK_201_DELETED = "Data is deleted successfully";
+    public static final String OK_201_CREATED = "Data created successfully";
+    public static final String OK_201_UPDATED = "Data updated successfully";
+    public static final String OK_201_DELETED = "Data has been deleted successfully";
 
     private String message;
     private Long id;

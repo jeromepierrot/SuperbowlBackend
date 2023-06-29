@@ -1,6 +1,5 @@
 package fr.jpierrot.superbowlbackend.ws;
 
-import fr.jpierrot.superbowlbackend.pojo.auth.DeleteResponse;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Admin;
 import fr.jpierrot.superbowlbackend.pojo.entities.Commentator;
@@ -20,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.API_REST
         + ApiRegistration.API_ADMIN
-        + ApiRegistration.API_SADMIN) /* default Route => /api/admin27864/Administration...*/
+        + ApiRegistration.API_SADMIN) /* default Route => /api/admin27864/administration...*/
 @CrossOrigin(origins = "http://localhost:4200")
 public class SuperAdminWs {
     @Autowired
@@ -100,25 +99,35 @@ public class SuperAdminWs {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(createCommentatorResponse);
         }
-
-
     }
 
     @PutMapping(path="/commentators/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> updateCommentator(@PathVariable("id") Long commentatorId) {
+    public ResponseEntity<RegisterResponse> updateCommentator(@RequestBody Commentator commentator, @PathVariable("id") Long commentatorId) {
         // TODO : A implémenter
         return null;
     }
 
     @DeleteMapping(path="/commentators/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DeleteResponse> deleteCommentatorById(@PathVariable("id") Long id) {
-        // TODO : A implémenter
-        return null;
+    public ResponseEntity<RegisterResponse> deleteCommentatorById(@PathVariable("id") Long id) {
+
+        // TODO : change returned type to DeleteResponse (not hurry)
+        RegisterResponse deleteResponse = commentatorService.deleteCommentatorById(id);
+        return ResponseEntity.accepted().body(deleteResponse);
     }
 
     /* ADMIN-USERS MANAGEMENT */
 
-    @PostMapping(path = "/admin/new", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path="/admins", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Admin> getAllAdmins() {
+        return adminService.getAllAdmins();
+    }
+
+    @GetMapping(path="/admins/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Admin getAdminById(@PathVariable Long id) {
+        return adminService.getAdminById(id);
+    }
+
+    @PostMapping(path = "/admins/new", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisterResponse> createAdmin(@RequestBody Admin newAdmin) {
         RegisterResponse createAdminResponse = adminService.createAdmin(newAdmin);
 
@@ -142,8 +151,8 @@ public class SuperAdminWs {
         }
     }
 
-    @PutMapping(path="/admin/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> updateAdmin(@RequestBody Admin adminToUpdate, Long id) {
+    @PutMapping(path="/admins/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RegisterResponse> updateAdmin(@RequestBody Admin adminToUpdate, @PathVariable("id") Long id) {
         RegisterResponse updateAdminResponse = adminService.updateAdminById(adminToUpdate, id);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -168,8 +177,10 @@ public class SuperAdminWs {
         }
     }
 
-    @DeleteMapping(path="/admin/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path="/admins/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RegisterResponse> deleteAdminById(@PathVariable("id") Long id) {
+
+        // TODO : change returned type to DeleteResponse (not hurry)
         RegisterResponse deleteResponse = adminService.deleteAdminById(id);
         return ResponseEntity.accepted().body(deleteResponse);
     }

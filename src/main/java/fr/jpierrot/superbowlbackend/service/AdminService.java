@@ -26,7 +26,11 @@ public interface AdminService {
 
     RegisterResponse updateAdminById(Admin admin, Long id);
 
+    RegisterResponse updateAdminByIdWithRole(Admin admin, Long id, Role role);
+
+    // TODO : change returned type to DeleteResponse (not hurry)
     RegisterResponse deleteAdminById(Long id);
 
+    // TODO : change returned type to DeleteResponse (not hurry)
     RegisterResponse deleteAdminByIdWithRole(Long id, Role role);
 }

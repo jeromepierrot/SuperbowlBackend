@@ -83,8 +83,9 @@ public class SuperAdminWs {
         RegisterResponse createCommentatorResponse = commentatorService.createCommentator(newCommentator);
 
         if (createCommentatorResponse.getMessage().equals(RegisterResponse.OK_201_CREATED)) {
-            URI location = UriComponentsBuilder.fromPath(ApiRegistration.API_REST+ApiRegistration.API_COM)
-                    .path("/{id}")
+            URI location = UriComponentsBuilder
+                    .fromPath(ApiRegistration.API_REST+ApiRegistration.API_ADMIN)
+                    .path("/commentators/{id}")
                     .buildAndExpand(createCommentatorResponse.getId())
                     .toUri();
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -102,9 +103,29 @@ public class SuperAdminWs {
     }
 
     @PutMapping(path="/commentators/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> updateCommentator(@RequestBody Commentator commentator, @PathVariable("id") Long commentatorId) {
-        // TODO : A implémenter
-        return null;
+    public ResponseEntity<RegisterResponse> updateCommentator(@RequestBody Commentator commentator, @PathVariable("id") Long id) {
+        RegisterResponse updateCommentatorResponse = commentatorService.updateCommentatorById(commentator, id);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(commentator.getId())
+                .toUri();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setLocation(location);
+
+        if(updateCommentatorResponse.getMessage().equals(RegisterResponse.OK_201_CREATED)) {
+            responseHeaders.set("ResponseHeader", "updateCommentator success");
+
+            return ResponseEntity.created(location)
+                    .header(responseHeaders.toString())
+                    .body(updateCommentatorResponse);
+        } else {
+            responseHeaders.set("ResponseHeader", "updateCommentator failure");
+
+            return ResponseEntity.status(HttpStatusCode.valueOf(403))
+                    .header(responseHeaders.toString())
+                    .body(updateCommentatorResponse);
+        }
     }
 
     @DeleteMapping(path="/commentators/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -132,8 +153,9 @@ public class SuperAdminWs {
         RegisterResponse createAdminResponse = adminService.createAdmin(newAdmin);
 
         if (createAdminResponse.getMessage().equals(RegisterResponse.OK_201_CREATED)) {
-            URI location = UriComponentsBuilder.fromPath(ApiRegistration.API_REST+ApiRegistration.API_ADMIN)
-                    .path("/{id}")
+            URI location = UriComponentsBuilder
+                    .fromPath(ApiRegistration.API_REST+ApiRegistration.API_ADMIN)
+                    .path("/admins/{id}")
                     .buildAndExpand(createAdminResponse.getId())
                     .toUri();
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -156,7 +178,7 @@ public class SuperAdminWs {
         RegisterResponse updateAdminResponse = adminService.updateAdminById(adminToUpdate, id);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(ApiRegistration.API_REST+ApiRegistration.API_USER+"/{id}")
+                .path("/{id}")
                 .buildAndExpand(adminToUpdate.getId())
                 .toUri();
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -169,7 +191,7 @@ public class SuperAdminWs {
                     .header(responseHeaders.toString())
                     .body(updateAdminResponse);
         } else {
-            responseHeaders.set("ResponseHeader", "createAdmin failure");
+            responseHeaders.set("ResponseHeader", "updateAdmin failure");
 
             return ResponseEntity.status(HttpStatusCode.valueOf(403))
                     .header(responseHeaders.toString())

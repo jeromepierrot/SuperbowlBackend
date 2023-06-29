@@ -2,6 +2,7 @@ package fr.jpierrot.superbowlbackend.service;
 
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Commentator;
+import fr.jpierrot.superbowlbackend.pojo.entities.Role;
 
 import java.util.List;
 
@@ -23,4 +24,12 @@ public interface CommentatorService {
     RegisterResponse createCommentator(Commentator newCommentator);
 
     RegisterResponse updateCommentatorById(Commentator commentator, Long id);
+
+    RegisterResponse updateCommentatorByIdWithRole(Commentator commentator, Long id, Role role);
+
+    // TODO : change returned type to DeleteResponse (not hurry)
+    RegisterResponse deleteCommentatorById(Long id);
+
+    // TODO : change returned type to DeleteResponse (not hurry)
+    RegisterResponse deleteCommentatorByIdWithRole(Long id, Role role);
 }

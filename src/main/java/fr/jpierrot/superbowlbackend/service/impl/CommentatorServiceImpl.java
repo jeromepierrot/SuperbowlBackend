@@ -26,8 +26,7 @@ public class CommentatorServiceImpl implements CommentatorService {
         List<Commentator> commentatorsList = commentatorRepository.findAllByRoleIs(Role.ROLE_COMMENTATOR);
 
         if(commentatorsList.isEmpty()) {
-            // TODO: implementation
-            return null;
+            return commentatorRepository.findAllByRoleIs(Role.ROLE_COMMENTATOR);
         }
         return commentatorsList;
     }
@@ -44,7 +43,7 @@ public class CommentatorServiceImpl implements CommentatorService {
                     .build();
         }
 
-        // TODO: Encrypt the password when security is up
+        // TODO : Encrypt the password when security is up
         commentator = Commentator.builder()
                 .firstname(newCommentator.getFirstname())
                 .lastname(newCommentator.getLastname())
@@ -67,23 +66,65 @@ public class CommentatorServiceImpl implements CommentatorService {
 
     @Override
     public RegisterResponse updateCommentatorById(Commentator commentator, Long id) {
+
+        return updateCommentatorByIdWithRole(commentator, id, Role.ROLE_COMMENTATOR);
+    }
+
+    @Override
+    public RegisterResponse updateCommentatorByIdWithRole(Commentator commentator, Long id, Role role) {
         Commentator commentatorToUpdate;
-        if(commentatorRepository.existsById(id)) {
-            commentatorToUpdate = commentatorRepository.findById(id).orElse(null);
+        String responseBody = ErrorResponse.ERROR_404_NOT_FOUND; /* Default error message*/
+
+        if(commentatorRepository.existsById(id)){
+            commentatorToUpdate = commentatorRepository.findByIdAndRoleIs(id, role);
+            if (commentatorToUpdate != null) {
+                if(commentatorToUpdate.isActivated() && commentatorToUpdate.hasRole(role)) {
+                    // TODO : Encrypt the password when security is up
+                    commentatorToUpdate.setLastname(commentator.getLastname());
+                    commentatorToUpdate.setFirstname(commentator.getFirstname());
+                    commentatorToUpdate.setEmail(commentator.getEmail());
+                    commentatorToUpdate.setPassword(commentator.getPassword());
+                    try {
+                        commentatorRepository.save(commentatorToUpdate);
+                        responseBody = RegisterResponse.OK_201_UPDATED;
+                    } catch (Exception e){
+                        responseBody = e.getMessage();
+                    }
+                } else if (!commentatorToUpdate.isEnabled() || !commentatorToUpdate.hasRole(role)) {
+                    responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+                } else if (!commentatorToUpdate.isPwdChecked()) {
+                    responseBody = ErrorResponse.ERROR_401_ACCOUNT_NOT_CHECKED;
+                }
+            }
         }
-        // TODO : Encrypt the password when security is up
-        commentatorToUpdate = Commentator.builder()
-                .firstname(commentator.getFirstname())
-                .lastname(commentator.getLastname())
-                .email(commentator.getEmail())
-                .password(commentator.getPassword())
-                .role(Role.ROLE_COMMENTATOR)
+
+        return RegisterResponse.builder()
+                .message(responseBody)
                 .build();
+    }
 
-        commentatorRepository.save(commentatorToUpdate);
+    @Override
+    public RegisterResponse deleteCommentatorById(Long id) {
+        return deleteCommentatorByIdWithRole(id, Role.ROLE_COMMENTATOR); /* we force the role ROLE_COMMENTATOR here */
+    }
 
-        String responseBody = RegisterResponse.OK_201_CREATED;
+    @Override
+    public RegisterResponse deleteCommentatorByIdWithRole(Long id, Role role) {
+        String responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
 
+        Commentator commentatorToDelete = commentatorRepository.findByIdAndRoleIs(id, role);
+        if(commentatorToDelete != null) {
+            if(commentatorToDelete.hasRole(role)) {// Check ROLE before deleting, must be ROLE_COMMENTATOR
+                try {
+                    commentatorRepository.deleteById(id);
+                    responseBody = RegisterResponse.OK_201_DELETED;
+                } catch (Exception e) {
+                    responseBody = e.getMessage();
+                }
+            } else {
+                responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+            }
+        }
         return RegisterResponse.builder()
                 .message(responseBody)
                 .build();

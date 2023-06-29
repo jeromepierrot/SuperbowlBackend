@@ -9,20 +9,22 @@
 --
 
 INSERT INTO `users` (type, email, password, lastname, firstname, is_enabled, is_pwd_checked, role, is_super_admin, creation_date, modification_date) VALUES
- ('U', 'ose.jose@toto.fr',                'AZERTY'              , 'Osé'             , 'José' ,             b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
- ('U', 'marie.paul@email.fr',             'QWERTZ'              , 'Marie'           , 'Paul' ,             b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
- ('A', 'jeffthetek@superbowl.fr',         'admin34'             , 'Techos'          , 'Jean-Francois',     b'1', b'1', 'ROLE_ADMIN'      , b'0', '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
- ('A', 'josethesupertek@superbowl.fr',    'superadmin34'        , 'F'               , 'José',              b'1', b'1', 'ROLE_ADMIN'      , b'1', '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
- ('C', 'csantana@santana.fr',             'como_va'             , 'Santana'         , 'Carlos',            b'1', b'1', 'ROLE_COMMENTATOR', NULL, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
- ('U', 'john.doe@doedoedoe.fr',           '1234'                , 'Doe'             , 'John',              b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 11:59:20.310345', '2023-06-26 11:59:20.310411'),
- ('U', 'pierrefeu@jurassic.fr',           'silexDu56'           , 'feu'             , 'Pierre',            b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:04:50.000000', '2023-06-26 15:04:50.000000'),
- ('U', 'nicolast@fragile.com',            'eclatdeverre22'      , 'Toukacé'         , 'Nicolas',           b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:04:50.000000', '2023-06-26 15:04:50.000000'),
- ('U', 'p.naure@gmail.com',               'silexDu56'           , 'Naure'           , 'Paul',              b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:04:50.000000', '2023-06-26 15:04:50.000000'),
- ('U', 'metauda.gilles@free.fr',          'silexOf34'           , 'Métauda'         , 'Gilles',            b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
- ('U', 'pmz@gmail.fr',                    'jAimePasm0nPr3nom'   , 'Z'               , 'Philippe-Mouloud',  b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
- ('U', 'francois1er@yoohoo.fr',           'JeSuisNiRoiNiM1nitre', 'Premier'         , 'Francois',          b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
- ('U', 'louisxiv@verslinfinietaudela.fr', 'LouisXIV'            , 'Quatorze'        , 'Louis',             b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
- ('U', 'nicolenicklous@free.fr',          'tournevis62'         , 'Nicklous'        , 'Nicole',            b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000');
+ ('U', 'ose.jose@toto.fr',                'AZERTY'              , 'Osé'             , 'José'             , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
+ ('U', 'marie.paul@email.fr',             'QWERTZ'              , 'Marie'           , 'Paul'             , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
+ ('A', 'jeffthetek@superbowl.fr',         'admin34'             , 'Techos'          , 'Jean-Francois'    , b'1', b'1', 'ROLE_ADMIN'      , b'0', '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
+ ('A', 'josethesupertek@superbowl.fr',    'superadmin34'        , 'F'               , 'José'             , b'1', b'1', 'ROLE_ADMIN'      , b'1', '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
+ ('C', 'csantana@santana.fr',             'como_va'             , 'Santana'         , 'Carlos'           , b'1', b'1', 'ROLE_COMMENTATOR', NULL, '2023-06-24 20:23:22.000000', '2023-06-24 20:23:22.000000'),
+ ('U', 'john.doe@doedoedoe.fr',           '1234'                , 'Doe'             , 'John'             , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 11:59:20.310345', '2023-06-26 11:59:20.310411'),
+ ('U', 'pierrefeu@jurassic.fr',           'silexDu56'           , 'feu'             , 'Pierre'           , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:04:50.000000', '2023-06-26 15:04:50.000000'),
+ ('U', 'nicolast@fragile.com',            'eclatdeverre22'      , 'Toukacé'         , 'Nicolas'          , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:04:50.000000', '2023-06-26 15:04:50.000000'),
+ ('U', 'p.naure@gmail.com',               'silexDu56'           , 'Naure'           , 'Paul'             , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:04:50.000000', '2023-06-26 15:04:50.000000'),
+ ('U', 'metauda.gilles@free.fr',          'silexOf34'           , 'Métauda'         , 'Gilles'           , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
+ ('U', 'pmz@gmail.fr',                    'jAimePasm0nPr3nom'   , 'Z'               , 'Philippe-Mouloud' , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
+ ('U', 'francois1er@yoohoo.fr',           'JeSuisNiRoiNiM1nitre', 'Premier'         , 'Francois'         , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
+ ('U', 'louisxiv@verslinfinietaudela.fr', 'LouisXIV'            , 'Quatorze'        , 'Louis'            , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
+ ('U', 'nicolenicklous@free.fr',          'tournevis62'         , 'Nicklous'        , 'Nicole'           , b'1', b'1', 'ROLE_USER'       , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
+ ('A', 'tony@free.fr'          ,          '4321'                , 'Admin'           , 'Tony'             , b'1', b'1', 'ROLE_ADMIN'      , NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000'),
+ ('C', 'albert2@sb.com'        ,          '0987'                , 'Deuxieme'        , 'Albert'           , b'1', b'1', 'ROLE_COMMENTATOR', NULL, '2023-06-26 15:12:04.000000', '2023-06-26 15:12:04.000000');
 
 -- --------------------------------------------------------
 

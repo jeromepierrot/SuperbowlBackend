@@ -95,4 +95,6 @@ public class User {
     public boolean isPwdChecked() {
         return this.getIsPwdChecked();
     }
+
+    public boolean hasRole(Role role) { return this.role == role; }
 }

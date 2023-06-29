@@ -62,9 +62,12 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         /* insert into database */
-        userToCreate = userRepository.save(userToCreate); /* we get newly DBMS inserted infos back here */
-
-        responseBody = RegisterResponse.OK_201_CREATED;
+        try {
+            userToCreate = userRepository.save(userToCreate); /* we get newly DBMS inserted infos back here */
+            responseBody = RegisterResponse.OK_201_CREATED;
+        } catch (Exception e) {
+            responseBody = e.getMessage();
+        }
 
         return RegisterResponse.builder()
                 .message(responseBody)
@@ -74,21 +77,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RegisterResponse updateUserById(User user, Long id) {
+        return updateUserByIdWithRole(user, id, Role.ROLE_USER);
+    }
+
+    @Override
+    public RegisterResponse updateUserByIdWithRole(User user, Long id, Role role) {
         User userToUpdate;
-        String responseBody = ErrorResponse.ERROR_404_NOT_FOUND; /* Defaault error message*/
+        String responseBody = ErrorResponse.ERROR_404_NOT_FOUND; /* Default error message*/
+
+        // TODO : need to solve the many to many association and cascade update/delete
+
         if(userRepository.existsById(id)){
             userToUpdate = userRepository.findUserById(id);
-            if(userToUpdate.isActivated()) {
-                // only name and firstname can be modified with this method
-                // email = login and password need special method to be updated
-                userToUpdate.setLastname(user.getLastname());
-                userToUpdate.setFirstname(user.getFirstname());
-                userRepository.save(userToUpdate);
-                responseBody = RegisterResponse.OK_201_UPDATED;
-            } else if (!userToUpdate.isEnabled()) {
-                responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
-            } else if (!userToUpdate.isPwdChecked()) {
-                responseBody = ErrorResponse.ERROR_401_ACCOUNT_NOT_CHECKED;
+            if(userToUpdate != null) {
+                if (userToUpdate.isActivated() && userToUpdate.hasRole(role)) {
+                    // only name and firstname can be modified with this method
+                    // email = login and password need special method to be updated
+                    userToUpdate.setLastname(user.getLastname());
+                    userToUpdate.setFirstname(user.getFirstname());
+                    try {
+                        userRepository.save(userToUpdate);
+                        responseBody = RegisterResponse.OK_201_UPDATED;
+                    } catch (Exception e) {
+                        responseBody = e.getMessage();
+                    }
+                } else if (!userToUpdate.isEnabled() || !userToUpdate.hasRole(role)) {
+                    responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+                } else if (!userToUpdate.isPwdChecked()) {
+                    responseBody = ErrorResponse.ERROR_401_ACCOUNT_NOT_CHECKED;
+                } else {
+                    responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
+                }
             }
         }
 
@@ -107,21 +126,25 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public RegisterResponse deleteUserByIdWithRole(Long id, Role role) {
-        String responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
-        User userToDelete = new User();
-        if(userRepository.existsById(id)) {
-            // Check ROLE before deleting, must be ROLE_USER
-            userToDelete = userRepository.findUserById(id);
-            if(userToDelete.getRole() == role) {
+        String responseBody;
+
+        User userToDelete = userRepository.findByIdAndRoleIs(id, role);
+
+        // TODO : need to solve the many to many association and cascade update/delete
+
+        if(userToDelete != null) {
+            if (userToDelete.hasRole(role)) {            // Check ROLE before deleting, must be ROLE_USER
                 try {
                     userRepository.deleteById(id);
                     responseBody = RegisterResponse.OK_201_DELETED;
                 } catch (Exception e) {
-                    responseBody = e.getMessage().toLowerCase();
+                    responseBody = e.getMessage();
                 }
             } else {
                 responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
             }
+        } else {
+            responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
         }
         return RegisterResponse.builder()
                 .message(responseBody)

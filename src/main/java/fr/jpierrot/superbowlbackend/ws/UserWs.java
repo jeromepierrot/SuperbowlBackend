@@ -51,8 +51,7 @@ public class UserWs {
         RegisterResponse updateUserResponse = userService.updateUserById(userToUpdate, id);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(userToUpdate.getId())
+                .build()
                 .toUri();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);

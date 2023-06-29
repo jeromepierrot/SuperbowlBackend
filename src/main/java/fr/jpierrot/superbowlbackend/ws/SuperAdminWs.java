@@ -50,8 +50,7 @@ public class SuperAdminWs {
         RegisterResponse updateUserResponse = userService.updateUserById(userToUpdate, id);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path(ApiRegistration.API_REST+ApiRegistration.API_USER+"/{id}")
-                .buildAndExpand(userToUpdate.getId())
+                .build()
                 .toUri();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);
@@ -107,8 +106,7 @@ public class SuperAdminWs {
         RegisterResponse updateCommentatorResponse = commentatorService.updateCommentatorById(commentator, id);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(commentator.getId())
+                .build()
                 .toUri();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);

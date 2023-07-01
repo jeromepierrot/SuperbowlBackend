@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class BetServiceImpl implements BetService {
-
+/*
     @Autowired
     private BetRepository betRepository;
 
@@ -108,5 +108,5 @@ public class BetServiceImpl implements BetService {
     @Override
     public RegisterResponse deleteBetByIdForUserId(Long userId, Long betId) {
         return null;
-    }
+    }*/
 }

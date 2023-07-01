@@ -1,5 +1,8 @@
+/*
 package fr.jpierrot.superbowlbackend.pojo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.jpierrot.superbowlbackend.pojo.entities.compositeKey.UsersBetsKey;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,3 +26,4 @@ public class UsersBets {
     @JoinColumn(name = "bet_id", foreignKey = @ForeignKey(name = "FK_usersbets_bet"))
     Bet betslip;
 }
+*/

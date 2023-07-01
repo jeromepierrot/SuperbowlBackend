@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@Getter
+/*@Getter
 @Setter
 @EqualsAndHashCode
 @Embeddable
@@ -19,4 +19,4 @@ public class UsersBetsKey implements Serializable {
 
     @Column(name = "bet_id")
     private Long betId;
-}
+}*/

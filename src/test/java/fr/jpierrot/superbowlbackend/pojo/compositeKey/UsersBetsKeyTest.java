@@ -1,4 +1,4 @@
-package fr.jpierrot.superbowlbackend.pojo.compositeKey;
+/*package fr.jpierrot.superbowlbackend.pojo.compositeKey;
 
 import fr.jpierrot.superbowlbackend.pojo.entities.UsersBets;
 import fr.jpierrot.superbowlbackend.pojo.entities.compositeKey.UsersBetsKey;
@@ -17,8 +17,8 @@ public class UsersBetsKeyTest {
 
         UsersBets usersBetsEntry = new UsersBets();
         usersBetsEntry.setId(compositeKey);
-/*        session.save(usersBetsEntry);*/
+*//*        session.save(usersBetsEntry);*//*
 
         assertEquals(1L, (long) usersBetsEntry.getId().getUserId());
         assertEquals(25L, (long) usersBetsEntry.getId().getBetId());
-}}
+}}*/

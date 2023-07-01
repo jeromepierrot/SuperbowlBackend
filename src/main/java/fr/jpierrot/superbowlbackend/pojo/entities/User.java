@@ -1,10 +1,16 @@
 package fr.jpierrot.superbowlbackend.pojo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuperBuilder
 @Getter
@@ -15,6 +21,10 @@ import java.time.ZonedDateTime;
         uniqueConstraints = {
                 @UniqueConstraint(name = "UK_users_email", columnNames = "email")
 })
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope = User.class)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type")
 @DiscriminatorValue("U")
@@ -61,6 +71,14 @@ public class User {
     @Column(name = "modification_date")
     private ZonedDateTime modifiedDate = ZonedDateTime.now();
 
+    @Builder.Default
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_bets",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "bet_id") })
+    @JsonManagedReference
+    private List<Bet> bets = null;
+
     /**
      * Check if User instance has fullfilled all required fields
      */
@@ -97,4 +115,20 @@ public class User {
     }
 
     public boolean hasRole(Role role) { return this.role == role; }
+
+    /**
+     * Attach a bet to this user, and the User to this bet ONLY IF this bet is not already attached to another user
+     * @return either true if newBet added, or false in any other case
+     */
+    public boolean addBet(Bet newBet) {
+        if(this.bets == null) {
+            this.bets = new ArrayList<>();
+        }
+        if(newBet != null && newBet.getUsers() == null) {
+            this.bets.add(newBet);
+            newBet.addUser(this);
+            return true;
+        }
+        return false;
+    }
 }

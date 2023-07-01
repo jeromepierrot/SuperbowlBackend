@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BetService {
 
-    List<Bet> getAllBetByUserId(Long userId);
+    /*List<Bet> getAllBetByUserId(Long userId);
 
     List<Bet> getBetByUserIdAndByMatchId(Long userId, Long matchId);
 
@@ -16,5 +16,5 @@ public interface BetService {
 
     RegisterResponse createBetForUser(Bet newBet, Long userId);
 
-    RegisterResponse deleteBetByIdForUserId(Long userId, Long betId);
+    RegisterResponse deleteBetByIdForUserId(Long userId, Long betId);*/
 }

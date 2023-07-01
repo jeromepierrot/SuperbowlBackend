@@ -182,3 +182,11 @@ ALTER TABLE IF EXISTS users_bets
     ADD CONSTRAINT FK_usersbets_user
     FOREIGN KEY (user_id)
     REFERENCES users (id);
+
+ALTER TABLE IF EXISTS bets
+    add column team_id bigint;
+
+ALTER TABLE IF EXISTS bets
+    ADD CONSTRAINT FK_bets_team
+    FOREIGN KEY (team_id)
+    REFERENCES teams (id);

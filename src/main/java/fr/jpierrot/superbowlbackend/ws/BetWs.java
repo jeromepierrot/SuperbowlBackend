@@ -19,7 +19,7 @@ import java.util.List;
         + ApiRegistration.API_USER) /* default Route => /api/users/{user_id}/bets */
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "GET")
 public class BetWs {
-    @Autowired
+    /*@Autowired
     private UserService userService;
 
     @Autowired
@@ -61,5 +61,5 @@ public class BetWs {
     public ResponseEntity<RegisterResponse> deleteUserById(@PathVariable("user_id") Long userId,
                                                            @PathVariable("bet_id") Long betId) {
         return ResponseEntity.ok(betService.deleteBetByIdForUserId(userId, betId));
-    }
+    }*/
 }

@@ -1,0 +1,61 @@
+/* TODO : need to fix style.css file not imported correctly by Thymeleaf*/
+section {
+  /* background-color: lightgreen; */
+}
+
+section.test {
+  background-color: pink;
+}
+
+.sa-test {
+  background-color: pink;
+}
+
+.sa-gutter {
+  --bs-gutter-x: 3rem
+}
+
+@media (min-width: 576) {
+  .sa-sm-layout {
+    display:grid;
+    grid-template-areas:"sidebar main";
+    grid-template-columns:4fr 1fr 6fr 1fr;
+    gap:1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .sa-md-layout {
+    display:grid;
+    grid-template-areas:"sidebar section main section";
+    grid-template-columns: 2fr 0fr 4fr 0fr;
+    gap:1.5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .sa-lg-layout {
+    display:grid;
+    grid-template-areas:"sidebar section main section";
+    grid-template-columns:2fr 1fr 6fr 1fr;
+    gap:1.5rem;
+  }
+}
+
+@media (min-width: 1200) {
+  .sa-xl-layout {
+    display:grid;
+    grid-template-areas:"sidebar section main section";
+    grid-template-columns:1fr 1fr 6fr 1fr;
+    gap:1.5rem;
+  }
+}
+
+@media (min-width: 1400) {
+  .sa-xxl-layout {
+    display:grid;
+    grid-template-areas:"sidebar main";
+    grid-template-columns:1fr 1fr 6fr 1fr;
+    gap:1.5rem;
+  }
+}

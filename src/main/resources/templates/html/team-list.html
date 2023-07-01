@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Team list</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css" integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
+</head>
+
+<body>
+  <header class="navbar navbar-expand-md stick-top navbar- bg-light py-4">
+    <nav class="container-xxl flex-wrap flex-lg-nowrap" aria-label="Main navigation">
+      <a class="navbar-brand text-uppercase fw-bold" href="/admin27864" aria-label="Superbowl homepage">
+        <span class="bg-primary bg-gradient p-3 rounded-3 align-content-center text-light">Superbowl</span>
+      </a>
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link text-uppercase fw-bold" href="/admin27864" aria-label="Administration">
+            Administration
+          </a>
+        </li>
+      </ul>
+      <button class="nav-link text-uppercase fw-bold" href="#" aria-label="Logout" hidden="false">
+        <span class="bi bi-power bg-secondary bg-gradient p-3 rounded-3 align-content-center text-light"><span > Logout</span></span>
+      </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#saSidebar"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+  </header>
+
+  <section>
+    <div class="empty"></div>
+  </section>
+
+  <div class="container-xxl sa-gutter mt-3 my-md-4 sa-xxl-layout sa-xl-layout sa-lg-layout sa-md-layout">
+    <aside>
+      <div class="sa-sidebar">
+        <div id="saSidebar" class="offcanvas-md offcanvas-start" tabindex="-1" aria-labelledby="saOffcanvasLabel" data-bs-scroll="true">
+          <div class="offcanvas-header border-bottom">
+            <h5 id="saOffcanvasLabel" class="offcanvas-title">Match management</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#saSidebar" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <div class="container text-center text-md-start">
+              <div class="row">
+                <div class="col bg-body-secondary">
+                  <div class="nav nav-pills flex-column justify-content-start " id="navbarNav">
+                    <ul class="nav flex-column fs-5">
+                      <li class="nav-item"><a class="nav-link"          href="/admin27864/teams/new">New team</a></li>
+                      <li class="nav-item"><a class="nav-link"          href="/admin27864/teams/update">Update team</a></li>
+                      <li class="nav-item"><a class="nav-link active"   href="/admin27864/teams">List of teams</a></li>
+                      <li class="nav-item"><a class="nav-link"          href="/admin27864/players/new">New player</a></li>
+                      <li class="nav-item"><a class="nav-link"          href="/admin27864/players/update">Update player</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/players">List of players</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches/new">New match</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches/update">Update match</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches">List of matches</a></li>
+                    </ul>
+                    <div class="hr"></div>
+                    <ul class="nav flex-column">
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/administration/commentators/new">New commentator</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/administration/commentators/update">Update commentator</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/administration/commentators">List commentators</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/administration/users/new">New user</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/administration/users/update">Update user</a></li>
+                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/administration/users">List users</a></li>
+                    </ul>
+                    <div class="hr flex-column"></div>
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link" href="">
+                          <span class="bi bi-power pe-1"></span>Logout
+                        </a>
+                      </li>
+                    </ul>
+                  </div >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section>
+      <div class="empty"></div>
+    </section>
+
+    <main>
+      <div class="form-wrapper-teamlist table-responsive">
+        <table class="table table-sm table-striped table-hover align-middle" aria-describedby="">
+          <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">Name</th>
+              <th scope="col">Country</th>
+              <th scope="col">Creation date</th>
+              <th scope="col">Modification date</th>
+              <th scope="col" colspan="1"></th>
+              <th scope="col" colspan="1">actions</th>
+              <th scope="col" colspan="1"></th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr>
+              <th scope="row"><a href="#">1</a></th>
+              <td>The old-fashioned</td>
+              <td>Chicago</td>
+              <td>2023-06-13</td>
+              <td>2023-06-13</td>
+              <td>
+                  <input class="btn btn-outline-danger" type="button" value="delete">
+              </td>
+              <td>
+                <input class="btn btn-success" type="button" value="edit">
+              </td>
+              <td>
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">2</a></th>
+              <td>The yorks</td>
+              <td>New York</td>
+              <td>2023-06-13</td>
+              <td>2023-06-13</td>
+              <td>
+                <input class="btn btn-outline-danger" type="button" value="delete">
+            </td>
+            <td>
+              <input class="btn btn-success" type="button" value="edit">
+            </td>
+            <td>
+              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
+            </td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">3</a></th>
+              <td>The middlemen</td>
+              <td>Michigan</td>
+              <td>2023-06-13</td>
+              <td>2023-06-13</td>
+              <td>
+                <input class="btn btn-outline-danger" type="button" value="delete">
+            </td>
+            <td>
+              <input class="btn btn-success" type="button" value="edit">
+            </td>
+            <td>
+              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
+            </td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="#">4</a></th>
+              <td>The socks</td>
+              <td>Massachussets</td>
+              <td>2023-06-13</td>
+              <td>2023-06-13</td>
+              <td>
+                <input class="btn btn-outline-danger" type="button" value="delete">
+            </td>
+            <td>
+              <input class="btn btn-success" type="button" value="edit">
+            </td>
+            <td>
+              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+    
+      <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1" id="offcanvasTeamInfo" aria-labelledby="offcanvasTeamInfoLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasTeamInfoLabel">Team's details and infos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <p>list details about the team, like upcoming matches and players</p>
+        </div>
+      </div>
+    </main>
+
+    <section>
+      <div class="empty"></div>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="container text-start mt-4">
+      <div class="row mt-5 sa-test">
+        <div class="col mb-3">
+          <h4>Related infos's section</h4>
+          <p>instructions: to hide if no related infos</p>
+        </div>
+      </div>
+    </div>
+    <div class="container text-center mt-4">
+      <div class="row">
+        <div class="col-12">
+          <p>(c) Superbowl administration - all right reserved</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</body>
+</html>

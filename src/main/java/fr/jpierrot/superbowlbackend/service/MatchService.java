@@ -16,7 +16,6 @@ public interface MatchService {
 
     List<Match> getMatchByTeamAId(Long teamAId);
 
-
     List<Match> getMatchByStartDate(ZonedDateTime startZonedDateTime);
 
     // MATCHES MANAGEMENT SERVICES: Create/Update/Delete //

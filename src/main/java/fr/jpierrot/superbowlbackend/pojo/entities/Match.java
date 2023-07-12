@@ -12,7 +12,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 @SuperBuilder
 @Getter
@@ -52,10 +51,11 @@ public class Match {
     @Column(name = "score_B")
     private Integer scoreB;
 
-    @OneToMany(fetch = FetchType.LAZY,
+/*    @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "match")
-    private Set<Bet> bets;
+    @JsonBackReference
+    private Set<Bet> bets;*/
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
@@ -192,8 +192,15 @@ public class Match {
     public void start() {
         Match.setValid(this);
         if( this.startDate.compareTo(ZonedDateTime.now()) < 0 &&
-                this.status.equals(MatchStatus.GAME_NOT_STARTED))
-            setStatus(MatchStatus.GAME_STARTED);
+                this.status.equals(MatchStatus.GAME_NOT_STARTED) &&
+                this.isEnabled) {
+            this.setStatus(MatchStatus.GAME_STARTED);
+        }
+
+    }
+
+    public void setEnabled(Boolean enabled){
+        this.isEnabled = enabled;
     }
 
     public void close() {
@@ -202,6 +209,7 @@ public class Match {
                 this.status.equals(MatchStatus.GAME_STARTED)) {
             setStatus(MatchStatus.GAME_OVER);
             setEndDate(ZonedDateTime.now());
+            setIsEnabled(true);
         }
     }
 
@@ -227,9 +235,7 @@ public class Match {
         }
     }
 
-    public boolean isScheduled() {
-        return this.status == MatchStatus.GAME_NOT_STARTED;
-    }
+    public boolean isScheduled() { return this.status == MatchStatus.GAME_NOT_STARTED; }
 
 
 
@@ -239,7 +245,6 @@ public class Match {
      * - both oddsA and oddsB are set
      * - matchStatus is not set to 'GAME_CANCELLED' or 'GAME_NOT_SCHEDULED'
      * - weatherStatus is not NULL
-     * @return false if one of these conditions is false
      */
     public static void setValid(Match match) {
         if (
@@ -259,16 +264,22 @@ public class Match {
                     match.startDate.compareTo(ZonedDateTime.now()) > 0){
                 /* Game is scheduled and not started yet, bets are still allowed */
                 match.setStatus(MatchStatus.GAME_NOT_STARTED);
+                match.setIsEnabled(true);
             } else if ( match.endDate.compareTo(ZonedDateTime.now()) > 0 ) {
                 /* Game is started, bets are not allowed anymore */
                 match.setStatus(MatchStatus.GAME_STARTED);
+                match.setIsEnabled(true);
             } else if(ZonedDateTime.now().compareTo(match.endDate) >= 0) {
                 /* Game is either Over scheduled time or GAME is OVER
                 * it will need a manual close using '.close()' method */
                 match.setStatus(MatchStatus.GAME_STARTED);
+                match.setIsEnabled(true);
             } else {
                 match.setStatus(MatchStatus.GAME_NOT_SCHEDULED);
+                match.setIsEnabled(false);
             }
+        } else {
+            match.setIsEnabled(false);
         }
     }
 
@@ -299,9 +310,11 @@ public class Match {
                         match.startDate.compareTo(ZonedDateTime.now()) > 0) {
                     /* Game is scheduled and not started yet, bets are still allowed */
                     match.setStatus(MatchStatus.GAME_NOT_STARTED);
+                    match.setIsEnabled(true);
                 } else {
                     /* Game is NOT scheduled */
                     match.setStatus(MatchStatus.GAME_NOT_SCHEDULED);
+                    match.setIsEnabled(false);
             }
         }
     }
@@ -314,6 +327,5 @@ public class Match {
             case GAME_OVER -> match.close();
             default -> setValid(match);
         }
-
     }
 }

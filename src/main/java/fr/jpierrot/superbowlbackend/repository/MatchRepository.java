@@ -18,7 +18,7 @@ public interface MatchRepository extends CrudRepository<Match, Long> {
     @Query("SELECT m FROM Match m WHERE m.id = ?1")
     Match findMatchById(Long id);
 
-    List<Match> findMatchesByCreatedDateIs(ZonedDateTime zonedDateTime);
+    List<Match> findMatchesByStartDateBetween(ZonedDateTime startingDate, ZonedDateTime endingDate);
 
     List<Match> findMatchesByTeamANameContaining(Team teamA);
     List<Match> findMatchesByTeamBNameContaining(Team teamB);

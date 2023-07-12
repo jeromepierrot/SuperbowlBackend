@@ -71,6 +71,10 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public List<Match> getMatchByStartDate(ZonedDateTime startZonedDateTime) {
-        return matchRepository.findMatchesByCreatedDateIs(startZonedDateTime);
+
+        System.out.println("-- Get Request all match for timestamp:" + startZonedDateTime);
+        System.out.println("-- Get Request all match for timestamp:" + startZonedDateTime.plusDays(1));
+
+        return matchRepository.findMatchesByStartDateBetween(startZonedDateTime, startZonedDateTime.plusDays(1));
     }
 }

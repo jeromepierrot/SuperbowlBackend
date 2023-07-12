@@ -2,6 +2,7 @@ package fr.jpierrot.superbowlbackend.pojo.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.jpierrot.superbowlbackend.pojo.states.BetStatus;
 import fr.jpierrot.superbowlbackend.pojo.states.MatchStatus;
@@ -31,6 +32,7 @@ public class Bet {
 
     @ManyToOne
     @JoinColumn(name = "match_id", foreignKey = @ForeignKey(name = "FK_bets_match"))
+    @JsonManagedReference
     private Match match;
 
     @Builder.Default
@@ -42,6 +44,7 @@ public class Bet {
 
     @ManyToOne
     @JoinColumn(name = "team_id", foreignKey = @ForeignKey(name = "FK_bets_team"))
+    @JsonManagedReference
     private Team betOnTeam;
 
     @Enumerated(EnumType.STRING)

@@ -43,10 +43,11 @@ public class Team {
 /*    @OneToMany(mappedBy = "team")
     private Set<Player> players;*/
 
-    @OneToMany(fetch = FetchType.LAZY,
+/*    @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "betOnTeam")
-    private Set<Bet> bets;
+    @JsonBackReference
+    private Set<Bet> bets;*/
 
     @Temporal(TemporalType.TIMESTAMP)
     @Builder.Default

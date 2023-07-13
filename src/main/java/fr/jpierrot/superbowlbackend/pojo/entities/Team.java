@@ -1,7 +1,5 @@
 package fr.jpierrot.superbowlbackend.pojo.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,8 +8,6 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
-
 
 @SuperBuilder
 @RequiredArgsConstructor
@@ -22,10 +18,6 @@ import java.util.Set;
         uniqueConstraints = {
             @UniqueConstraint(name = "UK_teams_name", columnNames = "name")
 })
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Team.class)
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

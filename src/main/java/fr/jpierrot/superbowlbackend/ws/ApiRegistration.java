@@ -12,5 +12,6 @@ public interface ApiRegistration {
     final String API_TEAM = "/teams";
     final String API_PLAYER = "/players";
     final String API_COUNTRY = "/countries";
+    final String API_COMMENT = "/comments";
 
 }

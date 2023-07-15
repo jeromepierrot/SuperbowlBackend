@@ -1,5 +1,6 @@
 package fr.jpierrot.superbowlbackend.pojo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -17,6 +18,7 @@ import java.util.Set;
 @DiscriminatorValue("C")
 public class Commentator extends User {
     @Builder.Default
+    @JsonBackReference
     @OneToMany(mappedBy = "commentator")
     private Set<Comment> comments = null;
 }

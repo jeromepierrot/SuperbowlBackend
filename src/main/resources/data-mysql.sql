@@ -243,3 +243,48 @@ INSERT INTO `users_bets` (`user_id`, `bet_id`) VALUES
 (  9, 18),
 ( 10, 19),
 ( 10, 20);
+
+
+INSERT INTO comments ( match_id , commentator_user_id , post_content , post_date , edit_date )
+VALUES
+    (1, 16, 'Le match commence. C\'est la toute première rencontre de ce Superbowl.'                    , '2023-06-28 13:01:00.000000', '2023-06-28 13:01:00.000000'),
+    (1, 16, 'Coup d\'envoi'                                                                             , '2023-06-28 13:02:00.000000', '2023-06-28 13:02:00.000000'),
+    (1, 16, 'Superbe départ des Dinos perdus'                                                           , '2023-06-28 13:08:00.000000', '2023-06-28 13:08:00.000000'),
+    (1, 16, 'Belle action collective ici !'                                                             , '2023-06-28 13:11:00.000000', '2023-06-28 13:11:00.000000'),
+    (1, 16, 'Woahou quel blocage de l\'offensive guard'                                                 , '2023-06-28 13:11:25.000000', '2023-06-28 13:11:25.000000'),
+    (1, 16, 'Touch down, il fallait s\'y attendre après une telle contre-offensive'                     , '2023-06-28 13:12:00.000000', '2023-06-28 13:12:00.000000'),
+    (1, 16, 'Encore une belle offensive des Dinos'                                                      , '2023-06-28 13:15:00.000000', '2023-06-28 13:15:00.000000'),
+    (1, 16, 'Malheureusement la défense adverse reste intraitable sur cette rencontre'                  , '2023-06-28 13:25:00.000000', '2023-06-28 13:25:00.000000'),
+    (1, 16, 'Fin du temps règlementaire, les chaussettes de Boston ont réussi à déjouer les Dinos'      , '2023-06-28 14:00:00.000000', '2023-06-28 14:00:00.000000'),
+
+    (2,  5, 'Le match commence. C\'est seulement la 2nd rencontre de ce Superbowl.'                     , '2023-06-28 15:01:00.000000', '2023-06-28 15:01:00.000000'),
+    (2,  5, 'Coup d\'envoi'                                                                             , '2023-06-28 15:02:00.000000', '2023-06-28 15:02:00.000000'),
+    (2,  5, 'Superbe départ des Canniches vaudous'                                                      , '2023-06-28 15:08:00.000000', '2023-06-28 15:08:00.000000'),
+    (2,  5, 'Belle action collective ici !'                                                             , '2023-06-28 15:11:00.000000', '2023-06-28 15:11:00.000000'),
+    (2,  5, 'Woahou quel blocage de l\'offensive guard'                                                 , '2023-06-28 15:11:25.000000', '2023-06-28 15:11:25.000000'),
+    (2,  5, 'Touch down, il fallait s\'y attendre après une telle contre-offensive'                     , '2023-06-28 15:12:00.000000', '2023-06-28 15:12:00.000000'),
+    (2,  5, 'Désormais, une belle offensive des Sirènes poilues'                                        , '2023-06-28 15:15:00.000000', '2023-06-28 15:15:00.000000'),
+    (2,  5, 'Et cette tactique paie, avec une nette domination des Canniches'                           , '2023-06-28 15:18:00.000000', '2023-06-28 15:18:00.000000'),
+    (2,  5, 'Fin du temps règlementaire, les Sirènes poilues l\'emportent sur les Canniches vaudous'    , '2023-06-28 16:00:00.000000', '2023-06-28 16:00:00.000000'),
+
+    (3, 16, 'Le match commence. C\'est seulement la 3eme rencontre de ce Superbowl.'                    , '2023-06-28 17:01:00.000000', '2023-06-28 17:01:00.000000'),
+    (3, 16, 'Coup d\'envoi'                                                                             , '2023-06-28 17:02:00.000000', '2023-06-28 17:02:00.000000'),
+    (3, 16, 'Superbe départ des Castors Farcis'                                                         , '2023-06-28 17:08:00.000000', '2023-06-28 17:08:00.000000'),
+    (3, 16, 'Belle action collective ici !'                                                             , '2023-06-28 17:11:00.000000', '2023-06-28 17:11:00.000000'),
+    (3, 16, 'Woahou quel blocage de l\'offensive guard'                                                 , '2023-06-28 17:11:25.000000', '2023-06-28 17:11:25.000000'),
+    (3, 16, 'Touch down, il fallait s\'y attendre après une telle contre-offensive'                     , '2023-06-28 17:12:00.000000', '2023-06-28 17:12:00.000000'),
+    (3, 16, 'Désormais, une belle offensive des Framboises maudites'                                    , '2023-06-28 17:15:00.000000', '2023-06-28 17:15:00.000000'),
+    (3, 16, 'Et cette tactique paie, avec une nette domination des Castors'                             , '2023-06-28 17:18:00.000000', '2023-06-28 17:18:00.000000'),
+    (3, 16, 'Fin du temps règlementaire, ce match se solde par un frustrant ex-aequo.'                  , '2023-06-28 18:00:00.000000', '2023-06-28 18:00:00.000000'),
+
+    (4,  5, 'Le match commence. C\'est seulement la 4eme rencontre de ce Superbowl.'                    , '2023-06-28 19:01:00.000000', '2023-06-28 19:01:00.000000'),
+    (4,  5, 'Coup d\'envoi'                                                                             , '2023-06-28 19:02:00.000000', '2023-06-28 19:02:00.000000'),
+    (4,  5, 'Superbe départ de la Nouvelle équipe'                                                      , '2023-06-28 19:08:00.000000', '2023-06-28 19:08:00.000000'),
+    (4,  5, 'Belle action collective ici !'                                                             , '2023-06-28 19:11:00.000000', '2023-06-28 19:11:00.000000'),
+    (4,  5, 'Woahou quel blocage de l\'offensive guard'                                                 , '2023-06-28 19:11:25.000000', '2023-06-28 19:11:25.000000'),
+    (4,  5, 'Touch down, il fallait s\'y attendre après une telle contre-offensive'                     , '2023-06-28 19:12:00.000000', '2023-06-28 19:12:00.000000'),
+    (4,  5, 'Désormais, une belle offensive de la New Team'                                             , '2023-06-28 19:15:00.000000', '2023-06-28 19:15:00.000000'),
+    (4,  5, 'Mais ce ne sera pas suffisant, vu la nette domination de la Nouvelle équipe'               , '2023-06-28 19:18:00.000000', '2023-06-28 19:18:00.000000'),
+    (4,  5, 'Fin du temps règlementaire, Nouvelle équipe l\'emporte sur New Team'                       , '2023-06-28 20:00:00.000000', '2023-06-28 20:00:00.000000')
+
+;

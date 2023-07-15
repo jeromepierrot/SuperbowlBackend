@@ -21,8 +21,7 @@ public class CommentWs {
         return commentService.getCommentById(id);
     }
 
-
-    @GetMapping(path = ApiRegistration.API_MATCH + "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/match/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Comment>  getAllCommentsByMatchId(@PathVariable("id") Long id) {
         return commentService.getAllCommentsByMatchId(id);
     }

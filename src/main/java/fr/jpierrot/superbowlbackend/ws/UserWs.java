@@ -16,7 +16,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(ApiRegistration.API_REST
     + ApiRegistration.API_USER)
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "GET")
+@CrossOrigin(origins = {"http://localhost:4200", "http://studi-superbowl.s3-website.eu-west-3.amazonaws.com"}, allowedHeaders = {"GET", "POST"})
 public class UserWs {
     @Autowired
     private UserService userService;

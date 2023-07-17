@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping(ApiRegistration.API_REST
         + ApiRegistration.API_ADMIN
         + ApiRegistration.API_SADMIN) /* default Route => /api/admin27864/administration...*/
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200"}, allowedHeaders = {"GET"})
 public class SuperAdminWs {
     @Autowired
     private UserService userService;

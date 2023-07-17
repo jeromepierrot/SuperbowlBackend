@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.API_REST
         + ApiRegistration.API_MATCH)
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = {"*"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://studi-superbowl.s3-website.eu-west-3.amazonaws.com"}, allowedHeaders = {"*"})
 public class MatchWs {
     @Autowired
     private MatchService matchService;

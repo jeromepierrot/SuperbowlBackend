@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.API_REST
         + ApiRegistration.API_TEAM)
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = {"GET", "POST"})
+@CrossOrigin(origins = {"http://localhost:4200", "http://studi-superbowl.s3-website.eu-west-3.amazonaws.com"}, allowedHeaders = {"GET"})
 public class TeamWs {
 
     @Autowired

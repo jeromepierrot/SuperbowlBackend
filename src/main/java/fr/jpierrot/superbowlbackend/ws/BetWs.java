@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiRegistration.API_REST
         + ApiRegistration.API_USER) /* default Route => /api/users/{user_id}/bets */
-@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "GET")
+@CrossOrigin(origins = {"http://localhost:4200", "http://studi-superbowl.s3-website.eu-west-3.amazonaws.com"}, allowedHeaders = {"*"})
 public class BetWs {
     /*@Autowired
     private UserService userService;

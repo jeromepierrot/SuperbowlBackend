@@ -55,10 +55,10 @@
                   <ul class="nav flex-column fs-5">
                     <li class="nav-item"><a class="nav-link"          href="/admin27864/teams/new">New team</a></li>
                     <li class="nav-item"><a class="nav-link"          href="/admin27864/teams/update">Update team</a></li>
-                    <li class="nav-item"><a class="nav-link active"   href="/admin27864/teams">List of teams</a></li>
+                    <li class="nav-item"><a class="nav-link"          href="/admin27864/teams">List of teams</a></li>
                     <li class="nav-item"><a class="nav-link"          href="/admin27864/players/new">New player</a></li>
                     <li class="nav-item"><a class="nav-link"          href="/admin27864/players/update">Update player</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" href="/admin27864/players">List of players</a></li>
+                    <li class="nav-item"><a class="nav-link"          href="/admin27864/players">List of players</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches/new">New match</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches/update">Update match</a></li>
                     <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches">List of matches</a></li>
@@ -80,7 +80,7 @@
                       </a>
                     </li>
                   </ul>
-                </div >
+                </div>
               </div>
             </div>
           </div>
@@ -96,10 +96,40 @@
   <main>
     <!-- MAIN CONTENT OR FORM -->
     <div class="container-lg align-content-center bg-body-secondary d-flex flex-column align-content-center">
-      <div class="row">
-        <div class="col-12 mb-3">
-          <h2>Form or main info's section</h2>
-        </div>
+      <div class="form-wrapper-teamlist table-responsive">
+        <table class="table table-sm table-striped table-hover align-middle" aria-describedby="">
+          <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Country</th>
+            <th scope="col">Creation date</th>
+            <th scope="col">Modification date</th>
+            <th scope="col" colspan="1"></th>
+            <th scope="col" colspan="1">actions</th>
+            <th scope="col" colspan="1"></th>
+          </tr>
+          </thead>
+          <tbody class="table-group-divider">
+          <tr th:each="team : ${teamList}">
+            <th scope="row" th:text="${team.id}"><a href="#">1</a></th>
+            <td th:text="${team.name}">The old-fashioned</td>
+            <td th:text="${team.country.name}">Chicago</td>
+            <td th:text="${team.createdDate}">2023-06-13</td>
+            <td th:text="${team.modifiedDate}">2023-06-13</td>
+            <td>
+              <input class="btn btn-outline-danger" type="button" value="delete">
+            </td>
+            <td>
+              <input class="btn btn-success" type="button" value="edit">
+            </td>
+            <td>
+              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
       </div>
 
       <!-- PAGINATION -->

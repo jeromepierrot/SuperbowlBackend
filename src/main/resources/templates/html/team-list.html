@@ -58,7 +58,7 @@
                       <li class="nav-item"><a class="nav-link active"   href="/admin27864/teams">List of teams</a></li>
                       <li class="nav-item"><a class="nav-link"          href="/admin27864/players/new">New player</a></li>
                       <li class="nav-item"><a class="nav-link"          href="/admin27864/players/update">Update player</a></li>
-                      <li class="nav-item"><a class="nav-link disabled" href="/admin27864/players">List of players</a></li>
+                      <li class="nav-item"><a class="nav-link"          href="/admin27864/players">List of players</a></li>
                       <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches/new">New match</a></li>
                       <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches/update">Update match</a></li>
                       <li class="nav-item"><a class="nav-link disabled" href="/admin27864/matches">List of matches</a></li>
@@ -109,12 +109,12 @@
             </tr>
           </thead>
           <tbody class="table-group-divider">
-            <tr>
-              <th scope="row"><a href="#">1</a></th>
-              <td>The old-fashioned</td>
-              <td>Chicago</td>
-              <td>2023-06-13</td>
-              <td>2023-06-13</td>
+            <tr th:each="team : ${teamList}">
+              <th scope="row" th:text="${team.id}"><a href="#">1</a></th>
+              <td th:text="${team.name}">The old-fashioned</td>
+              <td th:text="${team.country.name}">Chicago</td>
+              <td th:text="${team.createdDate}">2023-06-13</td>
+              <td th:text="${team.modifiedDate}">2023-06-13</td>
               <td>
                   <input class="btn btn-outline-danger" type="button" value="delete">
               </td>
@@ -124,54 +124,6 @@
               <td>
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
               </td>
-            </tr>
-            <tr>
-              <th scope="row"><a href="#">2</a></th>
-              <td>The yorks</td>
-              <td>New York</td>
-              <td>2023-06-13</td>
-              <td>2023-06-13</td>
-              <td>
-                <input class="btn btn-outline-danger" type="button" value="delete">
-            </td>
-            <td>
-              <input class="btn btn-success" type="button" value="edit">
-            </td>
-            <td>
-              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
-            </td>
-            </tr>
-            <tr>
-              <th scope="row"><a href="#">3</a></th>
-              <td>The middlemen</td>
-              <td>Michigan</td>
-              <td>2023-06-13</td>
-              <td>2023-06-13</td>
-              <td>
-                <input class="btn btn-outline-danger" type="button" value="delete">
-            </td>
-            <td>
-              <input class="btn btn-success" type="button" value="edit">
-            </td>
-            <td>
-              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
-            </td>
-            </tr>
-            <tr>
-              <th scope="row"><a href="#">4</a></th>
-              <td>The socks</td>
-              <td>Massachussets</td>
-              <td>2023-06-13</td>
-              <td>2023-06-13</td>
-              <td>
-                <input class="btn btn-outline-danger" type="button" value="delete">
-            </td>
-            <td>
-              <input class="btn btn-success" type="button" value="edit">
-            </td>
-            <td>
-              <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTeamInfo" aria-controls="offcanvasTeamInfo">info</button>
-            </td>
             </tr>
           </tbody>
         </table>

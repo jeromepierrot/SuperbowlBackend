@@ -16,6 +16,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+    private static final String[] AUTH_WHITE_LIST = {
+            "/error",
+            "/swagger-ui.html", "/swagger-ui/index.html", "/swagger-ui/**",
+            "/swagger-resources/**", "/v3/api-docs/**"
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -28,8 +33,8 @@ public class SecurityConfig {
             .csrf().disable()
             .cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/api/swagger-hui.html",
-                        "/api",
+                .requestMatchers(AUTH_WHITE_LIST).permitAll()
+                .requestMatchers(
                         "/api/matches/**",
                         "/api/teams/**",
                         "/api/players/**",

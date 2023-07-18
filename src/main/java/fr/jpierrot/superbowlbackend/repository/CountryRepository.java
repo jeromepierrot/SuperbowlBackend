@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CountryRepository extends CrudRepository<Country, Long> {
-    @Query("SELECT c FROM Team c")
+    @Query("SELECT c FROM Country c")
     List<Country> findAllCountries();
 
     @Query("SELECT c FROM Country c WHERE c.id = ?1 ")

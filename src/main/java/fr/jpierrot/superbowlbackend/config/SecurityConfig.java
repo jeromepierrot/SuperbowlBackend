@@ -33,6 +33,7 @@ public class SecurityConfig {
                         "/api/matches/**",
                         "/api/teams/**",
                         "/api/players/**",
+                        "/api/comments/**",
                         "/api/users/new",
                         "/admin27864/**"
                 ).permitAll()
@@ -42,7 +43,8 @@ public class SecurityConfig {
             .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-            .cors().disable()
+            .cors()
+                .disable()
         ;
 
         return http.build();

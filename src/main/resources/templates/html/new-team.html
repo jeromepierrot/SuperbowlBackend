@@ -80,7 +80,7 @@
                         </a>
                       </li>
                     </ul>
-                  </div >
+                  </div>
                 </div>
               </div>
             </div>
@@ -97,47 +97,31 @@
       <div class="form-wrapper-newteam">
 
         <!-- MAIN FORM -->
-        <form class="form-control" method="POST" action="" aria-labelledby="pageTitle">
+        <form class="form-control" method="POST" action="#"
+              th:action="@{/admin27864/teams/new}"
+              th:object="${newTeam}" aria-labelledby="pageTitle">
           <h2 id="pageTitle">New team</h2>
           <div class="form-floating is-invalid">
-            <input class="form-control is-invalid" type="text" id="name" placeholder="Team's name">
+            <input class="form-control is-invalid" type="text" th:field="*{name}"  id="name" placeholder="Team's name">
             <label class="form-label" for="name">Name</label>
           </div>
           <div class="invalid-feedback  mb-3">Please enter a team's name</div>          
           <div class="form-floating is-invalid">
-            <input class="form-control is-invalid" list="datalistOfCountries" id="country" placeholder="Select a country"
+            <input class="form-control is-invalid" th:field="*{country.name}" list="datalistOfCountries" id="country" placeholder="Select a country"
             aria-labelledby="countryLabel">
             <label class="form-label" for="country" id="countryLabel">Choose one country</label>
             <datalist id="datalistOfCountries">
-              <option value="Chicago"></option>
-              <option value="New York"></option>
-              <option value="Michigan"></option>
-              <option value="Massachussets"></option>
+              <option th:each="country : ${countryList}" th:value="${country?.name}" value="Chicago"></option>
             </datalist>
           </div>
           <div class="invalid-feedback mb-3">Please choose a country</div>
           <div class="col-12 mb-3">
             <label class="form-label" id="selectPlayersLabel" for="selectPlayers">Select players (multiple choices, hold ctrl/cmd) :</label>
             <select class="form-select is-invalid" name="players[]" id="selectPlayers" multiple size="15" aria-labelledby="selectPlayersLabel">
-              <option value="j1">Joueur 1</option>
-              <option value="j2">Joueur 2</option>
-              <option value="j3">Joueur 3</option>
-              <option value="j4">Joueur 4</option>
-              <option value="j5">Joueur 5</option>
-              <option value="j6">Joueur 6</option>
-              <option value="j7">Joueur 7</option>
-              <option value="j8">Joueur 8</option>
-              <option value="j9">Joueur 9</option>
-              <option value="j10">...</option>
-              <option value="j35">Joueur 34</option>
-              <option value="j35">Joueur 35</option>
-              <option value="j35">Joueur 36</option>
-              <option value="j75">...</option>
-              <option value="j76">Joueur 76</option>
-              <option value="j77">Joueur 77</option>
-              <option value="j78">Joueur 78</option>
-              <option value="j80">...</option>
-              <option value="j100">Joueur 100</option>
+              <option th:each="player : ${playerList}"
+                      th:value="${player?.id}"
+                      th:text="${player?.firstname} + ' ' +  ${player?.lastname} +', n° '+ ${player?.number}"
+                      value="j1">Joueur 1</option>
             </select>
             <div class="invalid-feedback  mb-3">Please choose at least one player</div>
           </div>

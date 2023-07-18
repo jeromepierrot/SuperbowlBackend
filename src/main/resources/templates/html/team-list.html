@@ -110,11 +110,11 @@
           </thead>
           <tbody class="table-group-divider">
             <tr th:each="team : ${teamList}">
-              <th scope="row" th:text="${team.id}"><a href="#">1</a></th>
-              <td th:text="${team.name}">The old-fashioned</td>
-              <td th:text="${team.country.name}">Chicago</td>
-              <td th:text="${team.createdDate}">2023-06-13</td>
-              <td th:text="${team.modifiedDate}">2023-06-13</td>
+              <th scope="row" th:text="${team?.id}"><a href="#">1</a></th>
+              <td th:text="${team?.name}">The old-fashioned</td>
+              <td th:text="${team?.country?.name}">Chicago</td>
+              <td th:text="${team?.createdDate}">2023-06-13</td>
+              <td th:text="${team?.modifiedDate}">2023-06-13</td>
               <td>
                   <input class="btn btn-outline-danger" type="button" value="delete">
               </td>

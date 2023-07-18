@@ -1,13 +1,18 @@
 package fr.jpierrot.superbowlbackend.presentation.controllers;
 
+import fr.jpierrot.superbowlbackend.pojo.data.PlayerRegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.entities.Player;
+import fr.jpierrot.superbowlbackend.pojo.entities.Team;
 import fr.jpierrot.superbowlbackend.service.PlayerService;
+import fr.jpierrot.superbowlbackend.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +25,11 @@ public class PlayersController {
     @Autowired
     private PlayerService playerService;
 
+    @Autowired
+    private TeamService teamService;
+
     @GetMapping(path = MvcRegistration.PLAYERS)
-    public ModelAndView showTeamList() {
+    public ModelAndView showPlayerList() {
 
         String viewName = "html/player-list";
 
@@ -36,5 +44,34 @@ public class PlayersController {
         }
 
         return new ModelAndView(viewName, model);
+    }
+
+    @GetMapping(path = MvcRegistration.PLAYERS + "/new")
+    public ModelAndView newPlayerForm() {
+        String viewName = "html/new-player";
+        Player newPlayer = new Player();
+        Map<String, Object> model = new HashMap<>();
+        List<Team> teamList = teamService.getAllTeams();
+
+        model.put("newPlayer", newPlayer);
+
+        if (teamList == null) {
+            model.put("teamList", null);
+        } else {
+            model.put("teamList", teamList);
+        }
+
+        return new ModelAndView(viewName, model);
+    }
+
+
+    @PostMapping(path = MvcRegistration.PLAYERS + "/new")
+    public ModelAndView submitNewPlayerForm(PlayerRegisterRequest newPlayer) {
+        playerService.createPlayer(newPlayer);
+
+        RedirectView redirect = new RedirectView();
+        redirect.setUrl(MvcRegistration.ROOT + MvcRegistration.PLAYERS);
+
+        return new ModelAndView(redirect);
     }
 }

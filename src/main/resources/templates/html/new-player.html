@@ -97,35 +97,34 @@
       <div class="container-fluid-md">
 
         <!-- MAIN FORM CONTENT -->
-        <form class="form-control" method="POST" action="" aria-labelledby="pageTitle">
+        <form class="form-control" method="POST" action="#"
+              th:action="@{/admin27864/players/new}"
+              th:object="${newPlayer}" aria-labelledby="pageTitle">
           <h2 id="pageTitle">New player</h2>
 
-          <div class="form-floating is-invalid">
-            <input class="form-control is-invalid" type="text" size="50" pattern="[A-z]" id="lastname" required placeholder="Player's name">
+          <div class="form-floating is-valid mb-3">
+            <input class="form-control is-valid" type="text" th:field="*{lastname}" id="lastname" required placeholder="Player's name">
             <label class="form-label" for="lastname">Name</label>
           </div>
           <div class="invalid-feedback mb-3">Please enter a player's name (50 characters max.)</div>
 
-          <div class="form-floating is-invalid">
-            <input class="form-control is-invalid" type="text" size="50" pattern="[A-z]" id="firstname" required placeholder="Player's firstname">
+          <div class="form-floating is-valid mb-3">
+            <input class="form-control is-valid" type="text" th:field="*{firstname}" id="firstname" required placeholder="Player's firstname">
             <label class="form-label" for="firstname">Firstname</label>
           </div>
           <div class="invalid-feedback mb-3">Please enter a player's firstname (50 characters max.)</div>
 
-          <div class="form-floating is-invalid">
-            <input class="form-control is-invalid" type="number" id="number" min="1" max="99" required placeholder="Player's number">
+          <div class="form-floating is-valid mb-3">
+            <input class="form-control is-valid" type="number" th:field="*{number}" id="number" min="1" max="99" required placeholder="Player's number">
             <label class="form-label" for="number">Number</label>
           </div>
           <div class="invalid-feedback mb-3">Please enter a number (between 1 and 99)</div>
 
           <div class="form-floating col-md-6 mb-3">
-            <input class="form-control" list="datalistOfTeams" id="datalistTeams" placeholder="Select a team">
+            <input class="form-control" th:field="*{team.name}" list="datalistOfTeams" id="datalistTeams" placeholder="Select a team">
             <label class="form-label" for="datalistTeams">Team</label>
             <datalist id="datalistOfTeams">
-              <option value="The oldfashionned of Chicago"></option>
-              <option value="The yorks of New York"></option>
-              <option value="The middlemen of Michigan"></option>
-              <option value="The socks of Massachussets"></option>
+              <option th:each="team : ${teamList}" th:value="${team?.name}" value="The oldfashionned of Chicago"></option>
             </datalist>
           </div>
           <div class="invalid-feedback mb-3">Please choose a team</div>
@@ -135,7 +134,7 @@
               <input class="btn btn-outline-danger" type="reset" value="Cancel">
             </div>
             <div class="col-4 col-sm-2 text-center">
-              <input class="btn btn-success" type="submit" value="Updating">
+              <input class="btn btn-success" type="submit" value="Create">
             </div>
           </div>
         </form> <!-- END FORM -->

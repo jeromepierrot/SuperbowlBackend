@@ -109,8 +109,13 @@ public class TeamServiceImpl implements TeamService {
             }
 
             /* insert into database */
-            teamRepository.save(team);
-            responseBody = RegisterResponse.OK_201_CREATED;
+            try {
+                teamRepository.save(team);
+                responseBody = RegisterResponse.OK_201_CREATED;
+            } catch (Exception e) {
+                responseBody = ErrorResponse.ERROR_400_BAD_REQUEST;
+                System.out.println("-- save new team failed: " + e.getMessage());
+            }
         }
 
         return DataRegisterResponse.builder()

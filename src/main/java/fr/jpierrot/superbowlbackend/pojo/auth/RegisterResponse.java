@@ -15,5 +15,5 @@ public class RegisterResponse {
     public static final String OK_201_DELETED = "Data has been deleted successfully";
 
     private String message;
-    private Long id;
+    private String token;
 }

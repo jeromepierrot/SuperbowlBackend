@@ -12,8 +12,9 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController(MvcRegistration.ROOT).setViewName("/html/admin.html");
-        registry.addViewController(MvcRegistration.ROOT + MvcRegistration.TEAMS).setViewName("/html/team-list.html");
+        registry.addViewController(MvcRegistration.LOGIN).setViewName("./login.html");
+        registry.addViewController(MvcRegistration.ROOT).setViewName("./html/admin.html");
+        registry.addViewController(MvcRegistration.ROOT + MvcRegistration.TEAMS).setViewName("./html/team-list.html");
         registry.addViewController(MvcRegistration.ROOT + MvcRegistration.TEAMS + "/new").setViewName("./html/new-team.html");
         registry.addViewController(MvcRegistration.ROOT + MvcRegistration.TEAMS + "/update").setViewName("./html/update-team.html");
         registry.addViewController(MvcRegistration.ROOT + MvcRegistration.PLAYERS).setViewName("./html/player-list.html");

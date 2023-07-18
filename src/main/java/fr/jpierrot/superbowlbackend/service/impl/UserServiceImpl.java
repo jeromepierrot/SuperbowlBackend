@@ -1,20 +1,32 @@
 package fr.jpierrot.superbowlbackend.service.impl;
 
 import fr.jpierrot.superbowlbackend.pojo.auth.ErrorResponse;
+import fr.jpierrot.superbowlbackend.pojo.auth.RegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Role;
 import fr.jpierrot.superbowlbackend.pojo.entities.User;
 import fr.jpierrot.superbowlbackend.repository.UserRepository;
 import fr.jpierrot.superbowlbackend.service.UserService;
+import fr.jpierrot.superbowlbackend.service.auth.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Override
     public List<User> getAllUsers() {
@@ -27,35 +39,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RegisterResponse createUser(User newUser) {
+    public User getUserByEmail(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
+    public RegisterResponse createUser(RegisterRequest newUser) {
         return createUserWithRole(newUser, Role.ROLE_USER);
     }
 
     @Override
-    public RegisterResponse createUserWithRole(User newUser, Role role) {
+    public RegisterResponse createUserWithRole(RegisterRequest newUser, Role role) {
         String responseBody = ErrorResponse.ERROR_401_UNAUTHORIZED;
-        User userToCreate = null;
+        User user = null;
 
-        if( userRepository.findByEmailIs(newUser.getEmail()) != null ) {
-            responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
-            return RegisterResponse.builder()
-                    .message(responseBody)
-                    .build();
-        }
-
+        /* Check at required fields */
         if ( !newUser.hasRequiredFields()) {
             responseBody = ErrorResponse.ERROR_400_BAD_REQUEST;
             return RegisterResponse.builder()
                     .message(responseBody)
+                    .token("")
                     .build();
         }
 
-        // TODO : Encrypt the password when security is up
-        userToCreate = User.builder()
+        /* Check if email already exists in the DB */
+        if( userRepository.findByEmailIs(newUser.getEmail()) != null ) {
+            responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+            return RegisterResponse.builder()
+                    .message(responseBody)
+                    .token("")
+                    .build();
+        }
+
+        user = User.builder()
                 .email(newUser.getEmail())
                 .lastname(newUser.getLastname())
                 .firstname(newUser.getFirstname())
-                .password(newUser.getPassword())
+                .password(passwordEncoder.encode(newUser.getPassword()))
                 .isEnabled(true)
                 .isPwdChecked(false)
                 .role(role)
@@ -63,15 +83,23 @@ public class UserServiceImpl implements UserService {
 
         /* insert into database */
         try {
-            userToCreate = userRepository.save(userToCreate); /* we get newly DBMS inserted infos back here */
+            user = userRepository.save(user); /* we get newly DBMS inserted infos back here */
             responseBody = RegisterResponse.OK_201_CREATED;
         } catch (Exception e) {
-            responseBody = e.getMessage();
+            responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
         }
+
+        /* generate JWT with extra claims */
+        Map<String, Object> extraClaims  = new HashMap<>();
+        extraClaims.put("id", user.getId());
+        var jwtToken = jwtService.generateToken(extraClaims, user);
+
+/*        *//* generate JWT WITHOUT extra claims *//*
+        var jwtToken = jwtService.generateToken(user);*/
 
         return RegisterResponse.builder()
                 .message(responseBody)
-                .id(userToCreate.getId()) /* id returned by DBMS */
+                .token(jwtToken)
                 .build();
     }
 

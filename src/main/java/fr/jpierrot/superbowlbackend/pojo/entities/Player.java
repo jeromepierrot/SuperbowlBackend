@@ -3,12 +3,16 @@ package fr.jpierrot.superbowlbackend.pojo.entities;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.ZonedDateTime;
 
+@SuperBuilder
 @Getter
 @Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "players")
 public class Player {
@@ -39,15 +43,4 @@ public class Player {
     @Builder.Default
     @Column(name = "modification_date")
     private ZonedDateTime modifiedDate = ZonedDateTime.now();
-
-    @Override
-    public String toString() {
-        return "Player{" +
-                "Id=" + id +
-                ", name='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", number=" + number +
-                ", team=" + team +
-                '}';
-    }
 }

@@ -1,5 +1,6 @@
 package fr.jpierrot.superbowlbackend.service;
 
+import fr.jpierrot.superbowlbackend.pojo.auth.AdminRegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Admin;
 import fr.jpierrot.superbowlbackend.pojo.entities.Role;
@@ -22,7 +23,9 @@ public interface AdminService {
 
     List<Admin> getAllAdmins(); /* for super admin usage only*/
 
-    RegisterResponse createAdmin(Admin newAdmin);
+    RegisterResponse createAdmin(AdminRegisterRequest newAdmin);
+
+    RegisterResponse createAdminWithRole(AdminRegisterRequest newAdmin, Role role);
 
     RegisterResponse updateAdminById(Admin admin, Long id);
 

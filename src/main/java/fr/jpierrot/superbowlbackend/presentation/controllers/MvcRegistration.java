@@ -1,6 +1,7 @@
 package fr.jpierrot.superbowlbackend.presentation.controllers;
 
 public interface MvcRegistration {
+    final String LOGIN = "/login";
     final String ROOT = "/admin27864";
     final String USERS = "/users";
     final String SADMIN = "/administration";

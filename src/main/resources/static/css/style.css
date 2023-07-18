@@ -1,4 +1,3 @@
-/* TODO : need to fix style.css file not imported correctly by Thymeleaf*/
 section {
   /* background-color: lightgreen; */
 }
@@ -15,7 +14,7 @@ section.test {
   --bs-gutter-x: 3rem
 }
 
-@media (min-width: 576) {
+@media (min-width: 576px) {
   .sa-sm-layout {
     display:grid;
     grid-template-areas:"sidebar main";
@@ -42,7 +41,7 @@ section.test {
   }
 }
 
-@media (min-width: 1200) {
+@media (min-width: 1200px) {
   .sa-xl-layout {
     display:grid;
     grid-template-areas:"sidebar section main section";
@@ -51,7 +50,7 @@ section.test {
   }
 }
 
-@media (min-width: 1400) {
+@media (min-width: 1400px) {
   .sa-xxl-layout {
     display:grid;
     grid-template-areas:"sidebar main";

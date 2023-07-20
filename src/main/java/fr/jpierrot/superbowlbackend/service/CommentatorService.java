@@ -1,5 +1,6 @@
 package fr.jpierrot.superbowlbackend.service;
 
+import fr.jpierrot.superbowlbackend.pojo.auth.CommentatorRegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Commentator;
 import fr.jpierrot.superbowlbackend.pojo.entities.Role;
@@ -21,7 +22,9 @@ public interface CommentatorService {
 
     List<Commentator> getAllCommentators(); /* for super admin usage only*/
 
-    RegisterResponse createCommentator(Commentator newCommentator);
+    RegisterResponse createCommentator(CommentatorRegisterRequest newCommentator);
+
+    RegisterResponse createCommentatorWithRole(CommentatorRegisterRequest newCommentator, Role role);
 
     RegisterResponse updateCommentatorById(Commentator commentator, Long id);
 

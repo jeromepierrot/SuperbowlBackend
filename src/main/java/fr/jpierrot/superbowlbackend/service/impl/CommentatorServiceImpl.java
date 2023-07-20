@@ -1,12 +1,12 @@
 package fr.jpierrot.superbowlbackend.service.impl;
 
-import fr.jpierrot.superbowlbackend.pojo.auth.ErrorResponse;
-import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
+import fr.jpierrot.superbowlbackend.pojo.auth.*;
 import fr.jpierrot.superbowlbackend.pojo.entities.Commentator;
 import fr.jpierrot.superbowlbackend.pojo.entities.Role;
 import fr.jpierrot.superbowlbackend.repository.CommentatorRepository;
 import fr.jpierrot.superbowlbackend.service.CommentatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +15,9 @@ import java.util.List;
 public class CommentatorServiceImpl implements CommentatorService {
     @Autowired
     private CommentatorRepository commentatorRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Commentator getCommentatorById(Long id) {
@@ -32,35 +35,63 @@ public class CommentatorServiceImpl implements CommentatorService {
     }
 
     @Override
-    public RegisterResponse createCommentator(Commentator newCommentator) {
+    public RegisterResponse createCommentator(CommentatorRegisterRequest newCommentator) {
+        return createCommentatorWithRole(newCommentator, Role.ROLE_COMMENTATOR);
+    }
+
+    @Override
+    public RegisterResponse createCommentatorWithRole(CommentatorRegisterRequest newCommentator, Role role) {
         String responseBody = ErrorResponse.ERROR_401_UNAUTHORIZED;
         Commentator commentator;
 
+        /* Check at required fields */
+        if ( !newCommentator.hasRequiredFields()) {
+            responseBody = ErrorResponse.ERROR_400_BAD_REQUEST;
+            return RegisterResponse.builder()
+                    .message(responseBody)
+                    .token("")
+                    .build();
+        }
+
+        /* Check if email already exists in the DB */
         if(commentatorRepository.findByEmailIs(newCommentator.getEmail()) != null) {
             responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
             return RegisterResponse.builder()
                     .message(responseBody)
+                    .token("")
                     .build();
         }
 
-        // TODO : Encrypt the password when security is up
         commentator = Commentator.builder()
                 .firstname(newCommentator.getFirstname())
                 .lastname(newCommentator.getLastname())
                 .email(newCommentator.getEmail())
-                .password(newCommentator.getPassword())
+                .password(passwordEncoder.encode(newCommentator.getPassword()))
                 .isEnabled(true)
                 .isPwdChecked(false)
-                .role(Role.ROLE_COMMENTATOR)
+                .role(role)
                 .build();
 
         /* insert into database */
-        commentator = commentatorRepository.save(commentator); /* we get newly DBMS inserted infos back here */
-        responseBody = RegisterResponse.OK_201_CREATED;
+        try {
+            commentator = commentatorRepository.save(commentator); /* we get newly DBMS inserted infos back here */
+            responseBody = RegisterResponse.OK_201_CREATED;
+        } catch (RuntimeException e) {
+            responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+        }
+
+        /* generate JWT with extra claims */
+/*        Map<String, Object> extraClaims  = new HashMap<>();
+        extraClaims.put("id", commentator.getId().toString()); *//* id returned by DBMS *//*
+        extraClaims.put("role", commentator.getRole());
+        var jwtToken = jwtService.generateToken(extraClaims, commentator);*/
+
+        /* generate JWT WITHOUT extra claims */
+/*        var jwtToken = jwtService.generateToken(commentator);*/
 
         return RegisterResponse.builder()
                 .message(responseBody)
-                .id(commentator.getId()) /* id returned by DBMS */
+                .token(commentator.getId().toString()) // id returned instead of a token because the commentator is created by Super Admin
                 .build();
     }
 

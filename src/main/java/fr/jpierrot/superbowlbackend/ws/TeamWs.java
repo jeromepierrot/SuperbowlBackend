@@ -1,6 +1,6 @@
 package fr.jpierrot.superbowlbackend.ws;
 
-import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
+import fr.jpierrot.superbowlbackend.pojo.data.DataRegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Team;
 import fr.jpierrot.superbowlbackend.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,25 +98,18 @@ public class TeamWs {
         }
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> createTeam(@RequestBody Team newTeam) {
-        RegisterResponse createTeamResponse = teamService.createTeam(newTeam);
-
-        return getRegisterResponse(newTeam, createTeamResponse, "createTeam");
-    }
-
     @PutMapping(path="/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> updateTeamById(@RequestBody Team teamToUpdate, @PathVariable("id") Long id) {
+    public ResponseEntity<DataRegisterResponse> updateTeamById(@RequestBody Team teamToUpdate, @PathVariable("id") Long id) {
 
-        RegisterResponse updateTeamResponse = teamService.updateTeamById(teamToUpdate, id);
+        DataRegisterResponse updateTeamResponse = teamService.updateTeamById(teamToUpdate, id);
 
         return getRegisterResponse(teamToUpdate, updateTeamResponse, "updateTeam");
     }
 
     @PutMapping(path="/name/{name}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> updateTeamByName(@RequestBody Team teamToUpdate, @PathVariable("name") String teamName) {
+    public ResponseEntity<DataRegisterResponse> updateTeamByName(@RequestBody Team teamToUpdate, @PathVariable("name") String teamName) {
 
-        RegisterResponse updateTeamResponse = teamService.updateTeamByName(teamToUpdate, teamName);
+        DataRegisterResponse updateTeamResponse = teamService.updateTeamByName(teamToUpdate, teamName);
 
         return getRegisterResponse(teamToUpdate, updateTeamResponse, "updateTeam");
     }
@@ -138,7 +131,7 @@ public class TeamWs {
     /**
      * This method help building HTTP Response based on RegisterResponse returned by the TeamService
      */
-    private ResponseEntity<RegisterResponse> getRegisterResponse(@RequestBody Team teamToUpdate, RegisterResponse updateTeamResponse, String responseHeader) {
+    private ResponseEntity<DataRegisterResponse> getRegisterResponse(@RequestBody Team teamToUpdate, DataRegisterResponse updateTeamResponse, String responseHeader) {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path(ApiRegistration.API_REST+ApiRegistration.API_TEAM+"/{id}")
                 .buildAndExpand(teamToUpdate.getId())

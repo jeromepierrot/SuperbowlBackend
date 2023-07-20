@@ -1,8 +1,10 @@
 package fr.jpierrot.superbowlbackend.service;
 
+import fr.jpierrot.superbowlbackend.pojo.auth.RegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Role;
 import fr.jpierrot.superbowlbackend.pojo.entities.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
@@ -12,9 +14,11 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    RegisterResponse createUser(User newUser);
+    User getUserByEmail(String email) throws UsernameNotFoundException;
 
-    RegisterResponse createUserWithRole(User newUser, Role role);
+    RegisterResponse createUser(RegisterRequest newUser);
+
+    RegisterResponse createUserWithRole(RegisterRequest newUser, Role role);
 
     RegisterResponse updateUserById(User user, Long id);
 

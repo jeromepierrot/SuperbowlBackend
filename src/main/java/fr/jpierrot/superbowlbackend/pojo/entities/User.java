@@ -1,15 +1,18 @@
 package fr.jpierrot.superbowlbackend.pojo.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @SuperBuilder
@@ -28,7 +31,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type")
 @DiscriminatorValue("U")
-public class User {
+public class User implements UserDetails {
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -79,22 +82,39 @@ public class User {
     @JsonManagedReference
     private List<Bet> bets = null;
 
-    /**
-     * Check if User instance has fullfilled all required fields
-     */
-    public boolean hasRequiredFields() {
-        return this.getEmail() != null && !this.getEmail().isEmpty()
-                && this.getLastname() != null && !this.getLastname().isEmpty()
-                && this.getFirstname() != null && !this.getFirstname().isEmpty()
-                && this.getPassword() != null && !this.getPassword().isEmpty();
-    }
 
     /**
      * Check if User instance has an activated account,
-     * meaning both isEnabled and isPwsChecked are true
+     * meaning both isEnabled and isPwdChecked are true
      */
     public boolean isActivated() {
         return this.getIsEnabled() && this.getIsPwdChecked();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(getRole().toString()));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return getIsEnabled();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return getIsEnabled();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO : not implemented yet
+        return true;
     }
 
     /**
@@ -102,7 +122,7 @@ public class User {
      * disabled mean the user is either banished or has an issue
      */
     public boolean isEnabled() {
-        return this.getIsEnabled();
+        return this.isAccountNonExpired() && this.isAccountNonLocked();
     }
 
     /**

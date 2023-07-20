@@ -19,12 +19,13 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
     @Query("SELECT t FROM Team t WHERE t.name like %?1% ")
     List<Team> findTeamByName(String name);
 
+    Team findTeamByNameIs(String name);
+
     @Query("SELECT t FROM Team t WHERE t.country.id = ?1 ")
     List<Team> findTeamByCountryId(Long countryId);
 
     @Query("SELECT t FROM Team t WHERE t.country.name like %?1% ")
     List<Team> findTeamByCountryName(String countryName);
-
 
     List<Team> findTeamsByIdAndCountryIdOrderByCountry(Long id, Long countryId);
 

@@ -1,5 +1,6 @@
 package fr.jpierrot.superbowlbackend.service.impl;
 
+import fr.jpierrot.superbowlbackend.pojo.auth.AdminRegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.auth.ErrorResponse;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Admin;
@@ -7,6 +8,7 @@ import fr.jpierrot.superbowlbackend.pojo.entities.Role;
 import fr.jpierrot.superbowlbackend.repository.AdminRepository;
 import fr.jpierrot.superbowlbackend.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,9 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminRepository adminRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<Admin> getAllAdmins() {
@@ -28,37 +33,64 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public RegisterResponse createAdmin(Admin newAdmin) {
+    public RegisterResponse createAdmin(AdminRegisterRequest newAdmin) {
+        return createAdminWithRole(newAdmin, Role.ROLE_ADMIN);
+    }
+
+    @Override
+    public RegisterResponse createAdminWithRole(AdminRegisterRequest newAdmin, Role role) {
         String responseBody = ErrorResponse.ERROR_401_UNAUTHORIZED;
         Admin admin = null;
 
-        if(adminRepository.findByEmailIs(newAdmin.getEmail()) != null){
-            responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+        /* Check at required fields */
+        if ( !newAdmin.hasRequiredFields()) {
+            responseBody = ErrorResponse.ERROR_400_BAD_REQUEST;
             return RegisterResponse.builder()
                     .message(responseBody)
+                    .token("")
                     .build();
         }
 
-        // TODO : Encrypt the password when security is up
+        /* Check if email already exists in the DB */
+        if(adminRepository.findByEmailIs(newAdmin.getEmail()) != null) {
+            responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+            return RegisterResponse.builder()
+                    .message(responseBody)
+                    .token("")
+                    .build();
+        }
+
         admin = Admin.builder()
                 .firstname(newAdmin.getFirstname())
                 .lastname(newAdmin.getLastname())
                 .email(newAdmin.getEmail())
-                .password(newAdmin.getPassword())
+                .password(passwordEncoder.encode(newAdmin.getPassword()))
                 .isEnabled(true)
                 .isPwdChecked(false)
                 .isSuperAdmin(false)
-                .role(Role.ROLE_ADMIN)
+                .role(role)
                 .build();
 
         /* insert into database */
-        admin = adminRepository.save(admin); /* we get newly DBMS inserted infos back here */
+        try {
+            admin = adminRepository.save(admin); /* we get newly DBMS inserted infos back here */
+            responseBody = RegisterResponse.OK_201_CREATED;
+        } catch (RuntimeException e) {
+            responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+        }
 
-        responseBody = RegisterResponse.OK_201_CREATED;
+        /* generate JWT with extra claims */
+/*        Map<String, Object> extraClaims  = new HashMap<>();
+        extraClaims.put("id", admin.getId().toString()); *//* id returned by DBMS *//*
+        extraClaims.put("role", admin.getRole());
+        var jwtToken = jwtService.generateToken(extraClaims, admin);*/
+
+        /* generate JWT WITHOUT extra claims */
+        /*        var jwtToken = jwtService.generateToken(admin);*/
 
         return RegisterResponse.builder()
                 .message(responseBody)
-                .id(admin.getId()) /* id returned by DBMS */
+                .token(admin.getId().toString()) // id returned instead of a token because an admin is created by Super Admin
                 .build();
     }
 
@@ -97,8 +129,6 @@ public class AdminServiceImpl implements AdminService {
                 .message(responseBody)
                 .build();
     }
-
-
 
     /**
      * only Admin users can be deleted by this method

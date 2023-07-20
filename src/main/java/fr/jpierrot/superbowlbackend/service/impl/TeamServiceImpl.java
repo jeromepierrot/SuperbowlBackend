@@ -2,6 +2,9 @@ package fr.jpierrot.superbowlbackend.service.impl;
 
 import fr.jpierrot.superbowlbackend.pojo.auth.ErrorResponse;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
+import fr.jpierrot.superbowlbackend.pojo.data.DataRegisterResponse;
+import fr.jpierrot.superbowlbackend.pojo.data.TeamRegisterRequest;
+import fr.jpierrot.superbowlbackend.pojo.entities.Country;
 import fr.jpierrot.superbowlbackend.pojo.entities.Team;
 import fr.jpierrot.superbowlbackend.repository.CountryRepository;
 import fr.jpierrot.superbowlbackend.repository.TeamRepository;
@@ -66,19 +69,62 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public RegisterResponse createTeam(Team newTeam) {
-        /* insert into database */
-        teamRepository.save(newTeam);
+    public DataRegisterResponse createTeam(TeamRegisterRequest newTeam) {
+        String responseBody = DataRegisterResponse.OK_201_CREATED;
+        Team team = new Team();
+        Country country = new Country();
 
-        String responseBody = RegisterResponse.OK_201_CREATED;
+        /* check if all required fields are there*/
+        if(!newTeam.hasRequiredFields()) {
+            responseBody = ErrorResponse.ERROR_400_BAD_REQUEST;
+            return DataRegisterResponse.builder()
+                    .message(responseBody)
+                    .build();
+        }
 
-        return RegisterResponse.builder()
+        List<Team> foundTeamList = teamRepository.findTeamByName(newTeam.getName());
+
+        if (!foundTeamList.isEmpty()) {
+            /* check if the team already exists */
+            responseBody = ErrorResponse.ERROR_403_FORBIDDEN;
+        } else {
+            /* prepare team data before persisting data */
+            team.setName(newTeam.getName());
+
+            /* check if the optional country field is there */
+            if(newTeam.getCountry() != null
+                    && countryRepository.findCountryByNameIs(newTeam.getCountry().getName()) != null
+            ) {
+                country = countryRepository.findCountryByNameIs(newTeam.getCountry().getName());
+                team.setCountry(country);
+            } else {
+                try {
+                    country = countryRepository.save(newTeam.getCountry());
+                } catch (Exception e) {
+                    country = null;
+                    System.out.println("-- save new country failed: " + e.getMessage());
+                } finally {
+                    team.setCountry(country);
+                }
+            }
+
+            /* insert into database */
+            try {
+                teamRepository.save(team);
+                responseBody = RegisterResponse.OK_201_CREATED;
+            } catch (Exception e) {
+                responseBody = ErrorResponse.ERROR_400_BAD_REQUEST;
+                System.out.println("-- save new team failed: " + e.getMessage());
+            }
+        }
+
+        return DataRegisterResponse.builder()
                 .message(responseBody)
                 .build();
     }
 
     @Override
-    public RegisterResponse updateTeamById(Team team, Long id) {
+    public DataRegisterResponse updateTeamById(Team team, Long id) {
         if(team.getCountry() != null) {
             return updateTeamByIdWithCountryId(team, id, team.getCountry().getId());
         } else {
@@ -87,7 +133,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public RegisterResponse updateTeamByIdWithCountryId(Team team, Long teamId, Long countryId) {
+    public DataRegisterResponse updateTeamByIdWithCountryId(Team team, Long teamId, Long countryId) {
         Team teamToUpdate;
         String responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
         if(teamRepository.existsById(teamId)){
@@ -100,13 +146,13 @@ public class TeamServiceImpl implements TeamService {
             responseBody = RegisterResponse.OK_201_UPDATED;
             }
 
-        return RegisterResponse.builder()
+        return DataRegisterResponse.builder()
                 .message(responseBody)
                 .build();
     }
 
     @Override
-    public RegisterResponse updateTeamByName(Team team, String oldTeamName) {
+    public DataRegisterResponse updateTeamByName(Team team, String oldTeamName) {
         if(team.getCountry() != null) {
             return updateTeamByNameWithCountryId(team, oldTeamName, team.getCountry().getId());
         } else {
@@ -115,7 +161,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public RegisterResponse updateTeamByNameWithCountryId(Team team, String oldTeamName, Long countryId) {
+    public DataRegisterResponse updateTeamByNameWithCountryId(Team team, String oldTeamName, Long countryId) {
         Team teamToUpdate;
         List<Team> foundTeams = teamRepository.findTeamByName(oldTeamName);
         String responseBody = ErrorResponse.ERROR_404_NOT_FOUND;
@@ -127,13 +173,13 @@ public class TeamServiceImpl implements TeamService {
 
             /* update into database */
             teamRepository.save(teamToUpdate);
-            responseBody = RegisterResponse.OK_201_UPDATED;
+            responseBody = DataRegisterResponse.OK_201_UPDATED;
         } else if (foundTeams != null && foundTeams.size() > 1) {
             /* Multiple resources: cannot identify the correct one, and so, cannot process the request */
             responseBody = ErrorResponse.ERROR_405_NOT_ALLOWED;
         }
 
-        return RegisterResponse.builder()
+        return DataRegisterResponse.builder()
                 .message(responseBody)
                 .build();
     }

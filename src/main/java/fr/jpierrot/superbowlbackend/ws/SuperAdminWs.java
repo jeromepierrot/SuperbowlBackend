@@ -1,5 +1,7 @@
 package fr.jpierrot.superbowlbackend.ws;
 
+import fr.jpierrot.superbowlbackend.pojo.auth.AdminRegisterRequest;
+import fr.jpierrot.superbowlbackend.pojo.auth.CommentatorRegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.Admin;
 import fr.jpierrot.superbowlbackend.pojo.entities.Commentator;
@@ -18,8 +20,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(ApiRegistration.API_REST
-        + ApiRegistration.API_ADMIN
-        + ApiRegistration.API_SADMIN) /* default Route => /api/admin27864/administration...*/
+        + "/sadmin27864"
+        + ApiRegistration.API_SADMIN) /* default Route => /api/sadmin27864/administration...*/
 @CrossOrigin(origins = {"http://localhost:4200"}, allowedHeaders = {"GET"})
 public class SuperAdminWs {
     @Autowired
@@ -78,14 +80,14 @@ public class SuperAdminWs {
     }
 
     @PostMapping(path="/commentators/new", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<RegisterResponse> createCommentator(@RequestBody Commentator newCommentator) {
+    ResponseEntity<RegisterResponse> createCommentator(@RequestBody CommentatorRegisterRequest newCommentator) {
         RegisterResponse createCommentatorResponse = commentatorService.createCommentator(newCommentator);
 
         if (createCommentatorResponse.getMessage().equals(RegisterResponse.OK_201_CREATED)) {
             URI location = UriComponentsBuilder
                     .fromPath(ApiRegistration.API_REST+ApiRegistration.API_ADMIN)
                     .path("/commentators/{id}")
-                    .buildAndExpand(createCommentatorResponse.getId())
+                    .buildAndExpand(createCommentatorResponse.getToken())
                     .toUri();
             HttpHeaders responseHeaders = new HttpHeaders();
 
@@ -147,14 +149,14 @@ public class SuperAdminWs {
     }
 
     @PostMapping(path = "/admins/new", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> createAdmin(@RequestBody Admin newAdmin) {
+    public ResponseEntity<RegisterResponse> createAdmin(@RequestBody AdminRegisterRequest newAdmin) {
         RegisterResponse createAdminResponse = adminService.createAdmin(newAdmin);
 
         if (createAdminResponse.getMessage().equals(RegisterResponse.OK_201_CREATED)) {
             URI location = UriComponentsBuilder
                     .fromPath(ApiRegistration.API_REST+ApiRegistration.API_ADMIN)
                     .path("/admins/{id}")
-                    .buildAndExpand(createAdminResponse.getId())
+                    .buildAndExpand(createAdminResponse.getToken())
                     .toUri();
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.setLocation(location);

@@ -1,6 +1,7 @@
 package fr.jpierrot.superbowlbackend.service;
 
-import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
+import fr.jpierrot.superbowlbackend.pojo.data.DataRegisterResponse;
+import fr.jpierrot.superbowlbackend.pojo.data.TeamRegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.entities.Team;
 
 import java.util.List;
@@ -33,14 +34,14 @@ public interface TeamService {
     // TEAMS MANAGEMENT SERVICES: Create/Update/Delete //
     // For ADMINS
 
-    RegisterResponse createTeam(Team newnewTeam);
+    DataRegisterResponse createTeam(TeamRegisterRequest newTeam);
 
-    RegisterResponse updateTeamById(Team team, Long id);
+    DataRegisterResponse updateTeamById(Team team, Long id);
 
-    RegisterResponse updateTeamByIdWithCountryId(Team team, Long teamId, Long countryId);
+    DataRegisterResponse updateTeamByIdWithCountryId(Team team, Long teamId, Long countryId);
 
-    RegisterResponse updateTeamByName(Team user, String teamName);
+    DataRegisterResponse updateTeamByName(Team user, String teamName);
 
-    RegisterResponse updateTeamByNameWithCountryId(Team team, String oldTeamName, Long countryId);
+    DataRegisterResponse updateTeamByNameWithCountryId(Team team, String oldTeamName, Long countryId);
 
 }

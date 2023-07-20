@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"
+          crossorigin="anonymous" />
+    <!--<link th:href="@{/css/style.css}" rel="stylesheet" type="text/css">-->
+    <style>
+        .sa-gutter {
+            --bs-gutter-x: 3rem
+        }
+
+        @media (min-width: 576px) {
+            .sa-sm-layout {
+                display:grid;
+                grid-template-areas:"sidebar main";
+                grid-template-columns:4fr 1fr 6fr 1fr;
+                gap:1.5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .sa-md-layout {
+                display:grid;
+                grid-template-areas:"sidebar section main section";
+                grid-template-columns: 2fr 0fr 4fr 0fr;
+                gap:1.5rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .sa-lg-layout {
+                display:grid;
+                grid-template-areas:"sidebar section main section";
+                grid-template-columns:2fr 1fr 6fr 1fr;
+                gap:1.5rem;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .sa-xl-layout {
+                display:grid;
+                grid-template-areas:"sidebar section main section";
+                grid-template-columns:1fr 1fr 6fr 1fr;
+                gap:1.5rem;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .sa-xxl-layout {
+                display:grid;
+                grid-template-areas:"sidebar main";
+                grid-template-columns:1fr 1fr 6fr 1fr;
+                gap:1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <form class="form-signin" method="post" action="./html/admin.html">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <p>
+            <label for="email" class="sr-only">Username</label>
+            <input type="text" id="email" name="email" class="form-control" placeholder="Email" required autofocus>
+        </p>
+        <p>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        </p>
+        <button class="btn btn-lg btn-secondary btn-block" type="submit">Sign in</button>
+    </form>
+</div>
+</body>
+
+</html>

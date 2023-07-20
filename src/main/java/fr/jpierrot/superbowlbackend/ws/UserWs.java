@@ -1,5 +1,6 @@
 package fr.jpierrot.superbowlbackend.ws;
 
+import fr.jpierrot.superbowlbackend.pojo.auth.RegisterRequest;
 import fr.jpierrot.superbowlbackend.pojo.auth.RegisterResponse;
 import fr.jpierrot.superbowlbackend.pojo.entities.User;
 import fr.jpierrot.superbowlbackend.service.UserService;
@@ -27,13 +28,13 @@ public class UserWs {
     }
 
     @PostMapping(path="/new", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RegisterResponse> createUser(@RequestBody User newUser){
+    public ResponseEntity<RegisterResponse> createUser(@RequestBody RegisterRequest newUser){
 
         RegisterResponse createUserResponse = userService.createUser(newUser);
 
         URI location = UriComponentsBuilder.fromPath(ApiRegistration.API_REST+ApiRegistration.API_USER)
                 .path("/{id}")
-                .buildAndExpand(newUser.getId())
+                .buildAndExpand(createUserResponse.getToken())
                 .toUri();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(location);

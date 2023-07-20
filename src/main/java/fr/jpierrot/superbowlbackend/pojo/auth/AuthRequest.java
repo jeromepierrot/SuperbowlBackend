@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthRequest {
-    private String email;
+    private String email; // == username in UserDetails inherited class
     private String password;
 }
